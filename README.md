@@ -1,5 +1,5 @@
 # projetoLDS
-Este repositório reference ao projeto de LDS da universidade. Projeto de leilão reverso para uma construtora.
+Este repositório reference ao projeto de LDS do curso de Ciências da Computação da Universidade Estadual Vale do Acaraú - UVA. Projeto de leilão reverso para uma construtora.
 
 # Instruções
 Deve ter instalado o composer em seu computador, link: https://getcomposer.org/download/
