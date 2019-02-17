@@ -1,0 +1,129 @@
+@import 'bootstrap.css';
+@import 'font-awesome.min.css';
+
+body {
+  padding: 0px;
+  background-color: #eeeeee;
+  overflow-x: hidden;
+}
+
+table thead {
+  background-color: LightGray ;
+}
+
+.right-button {
+  float: right;
+  margin-top: 12px;
+  width: 120px
+}
+
+.header-pager {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.form-border {
+  padding: 5px;
+  margin: 0 auto;
+  margin-top: 50px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.form-content {
+  padding: 15px;
+  margin: 0 auto;
+  background-color: #eeeeee;
+  border-radius: 5px;
+}
+
+.form-content .checkbox {
+  margin-bottom: 20px;
+}
+
+.form-content .form-control-fa {
+  height: auto;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  padding-left: 35px;
+}
+
+.form-content .form-group {
+  position: relative;
+}
+
+.form-content i {
+  position: absolute;
+  left: 13px;
+  top: 11px;
+  font-size: 18px;
+  color: #888888;
+}
+
+.btn {
+  border-radius: 10px;
+}
+
+.iconecl {
+  position: relative;
+  margin: 0 auto;
+}
+
+.iconepb {
+  position: relative;
+  margin: 0 auto;
+}
+
+.iconecl:hover {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.icones {
+  height: auto;
+  margin: 100px;
+}
+
+/*links*/
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: red;
+}
+
+/*tabelas*/
+.table-wrapper-scroll-y {
+  display: block;
+  max-height: 400px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+table tbody tr.odd td {
+  background-color: white;
+}
+
+table tbody tr.hover td {
+  background-color: #a9f5a5;
+}
+
+table tbody tr.selected td {
+  background-color: #a9f5a9 !important;
+}
+
+#cor-branca {
+  background-color: white;
+}
+
+/*# sourceMappingURL=style.css.map */

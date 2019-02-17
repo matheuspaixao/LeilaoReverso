@@ -1,0 +1,37 @@
+<?php use Core\Session; ?>
+
+<div class="row bg-gradient-danger p-2 text-white fixed-top" style="position: static">
+    <div class="col-12 col-md-7 text-left">
+        <img src="/assets/img/more+.jpg" height="40" alt="UVA">
+    </div>
+    <hr>
+    <div class="col-6 col-md-4 text-right">
+        <span>
+            <?php
+                if (Session::get('usuario')) {
+                    $user = Session::get('usuario');
+                    echo "Bem Vindo, $user->login<br/>\n";
+                    $ds = array('Domingo', 
+                                'Segunda-feira',
+                                'Terça-feira',
+                                'Quarta-feira',
+                                'Quinta-feira',
+                                'Sexta-feira',
+                                'Sábado');
+                    $dsn = date('w', strtotime("now"));
+                    echo $ds[$dsn] . ", " . date("d/m/y")  . "</h6>";
+                }
+            ?>
+        </span>
+    </div>
+    <div class="col-6 col-sm-1 mt-1">
+        <span class='row'>
+            <a class="btn btn-success col-5" data-toggle='tooltip' title='Página Inicial' href="/">
+                <i class="fa fa-home"></i>
+            </a>
+            <a class="btn btn-success col-5 ml-1" data-toggle='tooltip' title='Sair' href="/sair">
+                <i class="fa fa-power-off"></i>
+            </a>
+        </span>
+    </div>
+</div>

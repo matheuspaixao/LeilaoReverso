@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="form-border col-12 col-sm-12 border">
+    <form action="<?php echo isset($this->produto->id) ? '' : '/produtos/cadastrar'?>" method="post" accept-charset="utf-8" class="form-content border">
+      <h2 class="text-left"><?php echo $this->titleHeader?></h2>
+      <hr>
+      <div class="form-row">
+        <div class="col-md-8">
+          <input type="text" name="nome" placeholder="Produto" required autofocus class="form-control" 
+          value="<?php echo $this->produto->nome ?>">
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="und_medida" placeholder="Und medida" required class="form-control"
+            value="<?php echo $this->produto->und_medida ?>">
+        </div>
+        <div class="col-md-12" style="padding-top: 10px;">
+          <textarea type="text" name="descricao" placeholder="Descrição" required class="form-control"><?php echo $this->produto->descricao ?></textarea>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" name="acaoAndIdUser" value="<?php echo $this->produto->id ?>" class="btn btn-danger btn-block mt-3 btn-center">
+              <?php echo isset($this->produto->id) ? 'Alterar' : 'Cadastrar'; ?>
+          </button>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" name="cancelar" class="btn btn-danger btn-block mt-3 btn-center">
+              Cancelar
+          </button>
+        </div>
+      </div>      
+    </form>
+</div>

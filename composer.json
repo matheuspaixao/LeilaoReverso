@@ -1,0 +1,22 @@
+{
+  "name": "More Mais",
+  "description": "Sistema de leilão reverso para orçamentos",
+  "license": "UVA",
+  "type": "project",
+  "authors": [
+    { "name": "Daniel Martins", "email": "freitasdaniel39@gmail.com" },
+    { "name": "Hugo Firmino",   "email": "hugonline7@gmail.com" },
+    { "name": "Talitha Souza",  "email": "litha06h@gmail.com" },
+    { "name": "Matheus Paixão", "email": "matheus.tec3@gmail.com" }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Core\\": "core/",
+      "Src\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">= 5.4"
+  }
+}

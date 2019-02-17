@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row header-pager">
+    <div class="col-6">
+      <h1>Produtos</h1>
+    </div>
+    <div class="col-6">
+      <a href='/produtos/cadastrar'>
+        <button type='submit' name='alterar' class='btn btn-danger right-button'>
+          Cadastrar
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Und medida</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>    
+        <?php 
+          $i = 0;
+
+          foreach ($this->listaProdutos as $produto) {
+            $btnAlterar = "<a href='/produtos/$produto->id/atualizar'
+                            <button mettod type='submit' name='alterar' class='btn btn-danger btn-block'>
+                              Alterar
+                            </button>
+                           </a>";
+            $btnExcluir = "<a href='/produtos/$produto->id/excluir'
+                            <button type='submit' name='excluir' class='btn btn-danger btn-block'>
+                              Excluir
+                            </button>
+                           </a>";
+            $i++;
+
+            echo "
+            <tr>
+              <th scope='row'>$i</th>
+              <td>$produto->nome</td>
+              <td>$produto->und_medida</td>
+              <td width='10%'>$btnAlterar</td>
+              <td width='10%'>$btnExcluir</td>
+            </tr>";
+          }
+        ?>
+    </tbody>
+  </table>
+</div>
