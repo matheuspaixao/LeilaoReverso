@@ -11,4 +11,20 @@ class Produto {
   public $id_usr_alter;
   public $criado_em;
   public $ultima_alter;
+
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+
+  public function getNome() {
+    return $this->nome;
+  }
+
+  public function getUndMedida() {
+    return $this->und_medida;
+  }
 }

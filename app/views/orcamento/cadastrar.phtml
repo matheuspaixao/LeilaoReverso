@@ -1,49 +1,115 @@
 <div class="container">
   <div class="form-border col-12 col-sm-12 border">
     <form action="" method="post" accept-charset="utf-8" class="form-content border">
-      <h2 class="text-center">Cadastrar Novo Orçamento</h2>
+      <h2 class="text-left">Cadastrar Orçamento</h2>
       <hr>
+
       <div class="form-row">
-        <div class="col-md-12">
-        <label class="col-form-label"> Nome do Orçamento</label>
-        <input type="text" name="nome" id="nome" class="form-control input-lg" 
-            placeholder="Nome do Orçamento" autofocus required/>
-      </div>
+        <div class="col-md-6">
+          <label class="col-form-label">Nome do Orçamento</label>
+          <input type="text" name="nome" class="form-control input-lg" placeholder="Nome do Orçamento" autofocus required/>
         </div>
-      <div class="form-row">
-        <div class="col-md-4">
-          <label class="col-form-label">Produto</label>
-          <select name="produto"  id="instituicao" class="form-control input-lg">                            
-            <option value="">Selecione...</option>                         
-          </select>
+        
+        <div class="col-md-2">
+          <label class="col-form-label">Orçamento aberto?</label>
+          <input type="checkbox" checked name="aberto" data-toggle="toggle" data-on="Sim" data-off="Não">
+        </div>
+
+        <div class="table-responsive"> 
+          <table id="dynamic_field">
+           <tr>
+              <td width='35%'><label class="col-form-label">Produto</label></td>
+              <td width='10%'><label class="col-form-label">Und. medida</label></td>
+              <td width='10%'><label class="col-form-label">Quantidade</label></td>
+              <td width='15%'><label class="col-form-label"></label></td>
+            </tr>
+            <tr id='row0'>
+              <td>
+                <select name="selectProd[]" id="selectProd-0" class="form-control input-lg selectProd" autofocus required>                            
+                <option value="">Selecione o produto...</option>
+                  <?php
+                    foreach($this->produtos as $produto) {
+                      echo "<option value='$produto->id'>$produto->nome</option>";
+                    }
+                  ?>
+              </td>
+              <td>
+                <input type="text" name="und_medida[]" id="und-0" placeholder="und" readonly class="form-control input-lg">
+              </td>
+              <td>
+                <input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg" autofocus required>
+              </td>
+              <td>
+                <button type="button" name="addProd" id="addProd" class="btn btn-danger ml-1">
+                  Adicionar Linha
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      
+        <div class="col-md-2">
+          <button type="submit" name="cadastrar" class="btn btn-danger btn-block mt-3">
+            Cadastrar 
+          </button>
         </div>
         <div class="col-md-2">
-          <label class="col-form-label"> Quantidade</label>
-          <input type="text" name="qtd" placeholder="Qtd_produto" required class="form-control input-lg">
-        </div>
-        <div class="col-md-3">
-            <label class="col-form-label"> Unidade de Medida</label>
-            <input type="text" name="und" placeholder="Und medida" required class="form-control input-lg">
-        </div>
-      </div>
-      <div>
-      <div class="form-row">
-        <div class="col-md-3">
-          <button type="submit" name="add_linha" class="btn btn-danger btn-block mt-3">
-            Nova Linha 
+          <button type="submit" name="cancelar" class="btn btn-danger btn-block mt-3">
+            Cancelar
           </button>
         </div>
-        <div class="col-md-3">
-          <button type="submit" name="add_prod" class="btn btn-danger btn-block mt-3">
-            Adcionar Produto
-          </button>
-        </div>
-        <div class="col-md-3">
-          <a class="btn btn-danger btn-block mt-3" href="fornecedoras.php" role="button">
-              Avançar
-          </a>
-        </div>
-      </div>
+      
       </div>
     </form>
   </div>
+</div>
+
+<script>  
+  $(document).ready(function() {  
+    var i = 1;
+    var undProdutos = "<?php 
+                          foreach($this->produtos as $produto)
+                            echo $produto->id . "-" .$produto->und_medida .",";
+                        ?>";
+    var cmbBox;
+    var cmbBoxOptions = "<?php 
+                            foreach($this->produtos as $produto)
+                              echo "<option value='$produto->id'>$produto->nome</option>";
+                          ?>";
+    var inptQtd = '<input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg mt-1" autofocus required>';
+      
+    $('#addProd').click(function() {
+      i++;
+      cmbBox  = '<select name="selectProd[]" id="selectProd-'+i+'" class="form-control input-lg mt-1 selectProd" autofocus required>  <option value="">Selecione o produto...</option>' + cmbBoxOptions;
+      inptUnd = '<input type="text" id="und-'+i+'" name="und_medida[]" placeholder="und" readonly class="form-control input-lg mt-1">';
+      
+      $('#dynamic_field')
+      .append('<tr id="row'+i+'"><td>'+cmbBox+'</td> <td>'+inptUnd+'</td> <td>'+inptQtd+'</td> <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove mt-1">X</button></td></tr>');  
+    });
+
+    $(document).on('click', '.btn_remove', function() {  
+      var button_id = $(this).attr("id");   
+      $('#row'+button_id+'').remove();  
+    });
+
+    $(document).on('change', '.selectProd', function() {
+      var indx = $(this).attr("id").split('-')[1];
+      var idProd = $(this).val();
+      var value = undProdutos.split(',').find(function(value) { return value.split('-')[0] == idProd; });
+      $('#und-'+indx).val(value.split('-')[1]);
+    });
+
+    // $('#submit').click(function() {            
+    //   $.ajax({  
+    //     url:"",  
+    //     method:"POST",  
+    //     data:$('#selectProd').serialize(),  
+    //     success:function(data) {  
+    //       alert(data);  
+    //       $('#selectProd')[0].reset();  
+    //     }  
+    //   });  
+    // });
+
+  });  
+</script>

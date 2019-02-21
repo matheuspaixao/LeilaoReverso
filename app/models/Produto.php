@@ -5,7 +5,7 @@ namespace App\Models;
 use Core\BaseModel;
 use PDO;
 use PDOException;
-use Src\Classes\Produto as Product;
+use Src\Classes\Produto as ObjProduto;
 
 class Produto extends BaseModel {
   // Ja existe um atributo $pdo fazendo conexão com o BD na classe BaseModel, use-o
@@ -13,14 +13,14 @@ class Produto extends BaseModel {
   public function getProducts($search = null) {
     try {
       if (isset($search))
-        $query = "SELECT * FROM produto WHERE nome like '%:login%'";
+        $query = "SELECT * FROM produto WHERE nome like '%:nome%' ORDER BY nome";
       else
-        $query = "SELECT * FROM produto";
+        $query = "SELECT * FROM produto ORDER BY nome";
 
       $sql = $this->pdo->prepare($query);
       
       if (isset($search))
-        $sql->bindValue(':login', $login);
+        $sql->bindValue(':nome', $search);
       
       $sql->execute();
 
@@ -43,7 +43,7 @@ class Produto extends BaseModel {
     }
   }
 
-  public function insert(Product $produto) {
+  public function insert(ObjProduto $produto) {
     try {
       $query = "INSERT INTO produto(nome, descricao, und_medida, id_usr_cad) 
                 VALUES(:nome, :descricao, :und_medida, :id_usr_cad)";
@@ -60,7 +60,7 @@ class Produto extends BaseModel {
     }
   }
 
-  public function update(Product $produto) {
+  public function update(ObjProduto $produto) {
     try {
       $query = "UPDATE produto 
                 SET nome = :nome,
@@ -83,11 +83,11 @@ class Produto extends BaseModel {
     }
   }
 
-  public function delete($produtoId) {
+  public function delete($id) {
     try {
-      $query = "DELETE FROM produto WHERE id = :produtoId";
+      $query = "DELETE FROM produto WHERE id = :id" ;
       $sql = $this->pdo->prepare($query);      
-      $sql->bindValue(':produtoId', $produtoId);
+      $sql->bindValue(':id', $id);
       $sql->execute();
       
       return true;
