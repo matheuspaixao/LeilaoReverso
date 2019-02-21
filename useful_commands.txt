@@ -1,2 +1,3 @@
 php -S localhost:8080 -t public  // serve para caso esteja usando o servidor embutido do php e queira inicar o projeto
 composer dump-autoload -o        // serve para atualizar o composer caso tenha alterado o arquivo composer.json
+git revert HEAD~1                // desfazer ultimo commit
