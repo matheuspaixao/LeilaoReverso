@@ -127,4 +127,13 @@ table tbody tr.selected td {
   background-color: white;
 }
 
+.checkbox-danger input[type="checkbox"]:checked + label::before {
+  background-color: #d9534f;
+  border-color: #d9534f; 
+}
+
+.checkbox-danger input[type="checkbox"]:checked + label::after {
+  color: #fff; 
+}
+
 /*# sourceMappingURL=style.css.map */

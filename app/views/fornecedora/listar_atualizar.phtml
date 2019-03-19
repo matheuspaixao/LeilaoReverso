@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row header-pager">
+    <div class="col-6">
+      <h1>Fornecedoras</h1>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Nome Fantasia</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+         <?php 
+          $i = 0;
+
+          //foreach ($this->listaProdutos as $produto) {
+            $btnDados = "<a href=''
+                            <button mettod type='submit' name='dados' class='btn btn-danger btn-block'>
+                              Dados
+                            </button>
+                           </a>";
+            $btnAlterar = "<a href=''
+                            <button type='submit' name='alterar' class='btn btn-danger btn-block'>
+                              Excluir
+                            </button>
+                           </a>";
+            $i++;
+
+            echo "
+            <tr>
+              <th scope='row'>$i</th>
+              <td>Nome Fantasia</td>
+              <td width='10%'>$btnDados</td>
+              <td width='10%'>$btnAlterar</td>
+            </tr>";
+         // }
+        ?>
+    </tbody>
+  </table>
+  <hr>
+  <h5 class="text-left">Validar</h5>
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Nome Fantasia</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+       <?php 
+          $i = 0;
+
+          //foreach ($this->listaProdutos as $produto) {
+            $btnDados = "<a href=''
+                            <button mettod type='submit' name='alterar' class='btn btn-danger btn-block'>
+                              Dados
+                            </button>
+                           </a>";
+            $btnValidar = "<a href=''
+                            <button type='submit' name='excluir' class='btn btn-danger btn-block'>
+                              Validar
+                            </button>
+                           </a>";
+            $i++;
+
+            echo "
+            <tr>
+              <th scope='row'>$i</th>
+              <td>Nome Fantasia</td>
+              <td width='10%'>$btnDados</td>
+              <td width='10%'>$btnValidar</td>
+            </tr>";
+         // }
+        ?>
+    </tbody>
+  </table>
+</div>
