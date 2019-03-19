@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\BaseController;
 use Core\Container;
 use Core\Session;
+use Core\Redirect;
 use Src\Classes\Orcamento;
 use Src\Classes\Produto;
 use Src\Classes\OrdemDeOrcamento as Ordem;
@@ -34,9 +35,7 @@ class OrcamentoController extends BaseController
       if ($result !== true)
         echo $result;
 
-      // echo '<pre>';
-      // print_r($this->orcamento);
-      // echo '</pre>';
+      Redirect::route('/');
     } else {
       $produtoModel = Container::getModel('Produto');
       $this->produtos = $produtoModel->getProducts();
