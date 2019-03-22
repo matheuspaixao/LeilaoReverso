@@ -17,12 +17,13 @@
         </div>
         <div class="col-md-2">
           <button type="submit" name="acaoAndIdUser" value="<?php echo $this->produto->id ?>" class="btn btn-danger btn-block mt-3 btn-center">
-              <?php echo isset($this->produto->id) ? 'Alterar' : 'Cadastrar'; ?>
+              <?php echo isset($this->produto->id) ? 'Alterar' : 'Cadastrar <span class="fa fa-save"></span>'; ?>
           </button>
         </div>
         <div class="col-md-2">
           <button type="submit" name="cancelar" class="btn btn-danger btn-block mt-3 btn-center">
               Cancelar
+              <span class="fa fa-times"></span>
           </button>
         </div>
       </div>      

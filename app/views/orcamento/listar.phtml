@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="row header-pager">
+    <div class="col-6">
+      <h1>Orçamentos</h1>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-11">
+      <h5 class="text-left mt-2">Em andamento</h5>
+    </div>
+    <div class="col-md-1">
+      <a data-toggle='tooltip'title='voltar' class="btn btn-danger btn-center" href="/orcamento/index">
+         Voltar
+         <span class="fa fa-undo"></span>
+      </a>
+    </div>
+  </div>
+  <hr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Nome Orçamento</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+         <?php 
+          $i = 0;
+
+          //foreach ($this->listaProdutos as $produto) {
+            $btnDetalhar = "<a href=''
+                            <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
+                              Detalhar
+                            </button>
+                           </a>";
+            $btnAlterar = "<a href=''
+                            <button type='submit' name='alterar' class='btn btn-danger btn-block'>
+                              Alterar
+                            </button>
+                           </a>";
+            $btnResponder = "<a href=''
+                            <button type='submit' name='responder' class='btn btn-danger btn-block'>
+                              Responder
+                            </button>
+                           </a>";
+        
+            $i++;
+
+            echo "
+            <tr>
+              <th scope='row'>$i</th>
+              <td>Nome Orçamento</td>
+              <td width='10%'>$btnDetalhar</td>
+              <td width='10%'>$btnAlterar</td>
+              <td width='10%'>$btnResponder</td>
+            </tr>";
+         // }
+        ?>
+    </tbody>
+  </table>
+  <hr>
+  <h5 class="text-left">Finalizados</h5>
+  <hr>
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Nome Orçamento</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+         <?php 
+          $i = 0;
+
+          //foreach ($this->listaProdutos as $produto) {
+            $btnDetalhar = "<a href=''
+                            <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
+                              Detalhar
+                            </button>
+                           </a>";
+            $i++;
+
+            echo "
+            <tr>
+              <th scope='row'>$i</th>
+              <td>Nome Orçamento</td>
+              <td width='10%'></td>
+              <td width='10%'></td>
+              <td width='10%'>$btnDetalhar</td>
+            </tr>";
+         // }
+        ?>
+    </tbody>
+  </table>
+</div>

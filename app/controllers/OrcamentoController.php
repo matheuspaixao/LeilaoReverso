@@ -5,7 +5,6 @@ namespace App\Controllers;
 use Core\BaseController;
 use Core\Container;
 use Core\Session;
-use Core\Redirect;
 use Src\Classes\Orcamento;
 use Src\Classes\Produto;
 use Src\Classes\OrdemDeOrcamento as Ordem;
@@ -35,7 +34,9 @@ class OrcamentoController extends BaseController
       if ($result !== true)
         echo $result;
 
-      Redirect::route('/');
+      // echo '<pre>';
+      // print_r($this->orcamento);
+      // echo '</pre>';
     } else {
       $produtoModel = Container::getModel('Produto');
       $this->produtos = $produtoModel->getProducts();
@@ -44,4 +45,12 @@ class OrcamentoController extends BaseController
       $this->renderView('orcamento/cadastrar', 'layout');
     }    
   }
+   public function listar() {
+        $this->setPageTitle('Orçamento');
+        $this->renderView('orcamento/listar', 'layout');
+    }
+    public function index() {
+    $this->setPageTitle('Gerenciar Orçamento');
+    $this->renderView('orcamento/index', 'layout');
+}
 }

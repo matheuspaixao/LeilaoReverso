@@ -39,15 +39,14 @@ class LoginController extends BaseController
       Session::set('usuario', $usuario);
       Redirect::route('/');
     }
-  }
-  
+  }  
+    
   public function esqueciSenha() {
     $this->setPageTitle('Login');
     $this->renderView('login/esqueci-senha', 'layout');
   }
-  
-  public function cadastrar() {
-    $this->setPageTitle('Fornecedora');
-    $this->renderView('login/cadastrar', 'layout');
-  }
+      public function cadastrar() {
+        $this->setPageTitle('Fornecedora');
+        $this->renderView('login/cadastrar', 'layout');
+    }
 }
