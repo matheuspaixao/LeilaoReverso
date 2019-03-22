@@ -1,3 +1,9 @@
 php -S localhost:8080 -t public  // serve para caso esteja usando o servidor embutido do php e queira inicar o projeto
 composer dump-autoload -o        // serve para atualizar o composer caso tenha alterado o arquivo composer.json
 git revert HEAD~1                // desfazer ultimo commit
+
+passos para enviar para o git:
+git status // verificar o status dos arquivos na branch
+git add .      //adiciona todos os arquivos alterados, removidos e ou adicionados
+git commit -m "aqui coloco a descricao das minhas alteracoes" //faz o commit em si e deixa pronto pra enviar pro servidor remoto
+git push origin master // envia pro github
