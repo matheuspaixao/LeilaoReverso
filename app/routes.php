@@ -18,8 +18,6 @@ $route = [
   ['/fornecedora/listar_atualizar', 'FornecedoraController@listar'],
   ['/sair', 'Sair@logout'],
   ['/teste', 'TesteController@index']
-  //['/posts', 'PostsController@index'],
-  //['/post/{id}/show', 'PostsController@Show']
 ];
 
 return $route;

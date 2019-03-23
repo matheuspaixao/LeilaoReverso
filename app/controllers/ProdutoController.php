@@ -12,6 +12,7 @@ class ProdutoController extends BaseController
 {
   protected $listaProdutos;
   protected $produto;
+  protected $undMedidas;
   protected $titleHeader;
     
   public function listar() {
@@ -38,6 +39,8 @@ class ProdutoController extends BaseController
       Redirect::route('/produtos');
     } else {
       $this->produto = new Produto();
+      $undMedidaModel = Container::getModel('UndMedida');
+      $this->undMedidas = $undMedidaModel->getUndMedidas();
       $this->titleHeader = 'Cadastrar produto';
       $this->setPageTitle('Cadastrar Produto');
       $this->renderView('produto/cadastrar_atualizar', 'layout');
@@ -52,8 +55,10 @@ class ProdutoController extends BaseController
       Redirect::route('/produtos');
     } else {
       $produtoModel = Container::getModel('Produto');
-      $this->produto = $produtoModel->getProductById($id);
-      $this->titleHeader = $this->produto->nome;
+      $this->produto = $produtoModel->getProductById($id);   
+      $undMedidaModel = Container::getModel('UndMedida');
+      $this->undMedidas = $undMedidaModel->getUndMedidas($this->produto->id_und_medida);
+      $this->titleHeader = 'Alterar produto';
       $this->setPageTitle('Cadastrar Produto');
       $this->renderView('produto/cadastrar_atualizar', 'layout');
     }
@@ -69,7 +74,7 @@ class ProdutoController extends BaseController
     $this->produto = new Produto();
     $this->produto->id = $request->post->acaoAndIdUser;
     $this->produto->nome = $request->post->nome;
-    $this->produto->und_medida = $request->post->und_medida;
+    $this->produto->id_und_medida = $request->post->id_und_medida;
     $this->produto->descricao = $request->post->descricao;
     $this->produto->$id_usr = Session::get('usuario')->id; //pode ser id_usr_alter ou id_usr_cad
   }

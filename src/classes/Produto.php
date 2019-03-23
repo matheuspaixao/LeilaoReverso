@@ -6,7 +6,7 @@ class Produto {
   public $id;
   public $nome;
   public $descricao;
-  public $und_medida;
+  public $id_und_medida;
   public $id_usr_cad;
   public $id_usr_alter;
   public $criado_em;
@@ -24,7 +24,11 @@ class Produto {
     return $this->nome;
   }
 
-  public function getUndMedida() {
-    return $this->und_medida;
+  public function setIdUndMedida($id_und_medida) {
+    $this->id_und_medida = $id_und_medida;
+  }
+
+  public function getIdUndMedida() {
+    return $this->id_und_medida;
   }
 }

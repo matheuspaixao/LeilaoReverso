@@ -10,7 +10,7 @@
             <?php
                 if (Session::get('usuario')) {
                     $user = Session::get('usuario');
-                    echo "Bem Vindo, $user->login<br/>\n";
+                    echo "Bem Vindo, $user->nome<br/>\n";
                     $ds = array('Domingo', 
                                 'Segunda-feira',
                                 'Terça-feira',

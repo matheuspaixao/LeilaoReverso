@@ -12,10 +12,15 @@ class Produto extends BaseModel {
 
   public function getProducts($search = null) {
     try {
+      $query = "SELECT p.*, und.unidade as und_medida 
+                FROM produto p
+                INNER JOIN undMedida und
+                  on p.id_und_medida = und.id";
+
       if (isset($search))
-        $query = "SELECT * FROM produto WHERE nome like '%:nome%' ORDER BY nome";
+        $query .= " WHERE nome like '%:nome%' ORDER BY nome";
       else
-        $query = "SELECT * FROM produto ORDER BY nome";
+        $query .= " ORDER BY nome";
 
       $sql = $this->pdo->prepare($query);
       
@@ -45,12 +50,12 @@ class Produto extends BaseModel {
 
   public function insert(ObjProduto $produto) {
     try {
-      $query = "INSERT INTO produto(nome, descricao, und_medida, id_usr_cad) 
-                VALUES(:nome, :descricao, :und_medida, :id_usr_cad)";
+      $query = "INSERT INTO produto(nome, descricao, id_und_medida, id_usr_cad) 
+                VALUES(:nome, :descricao, :id_und_medida, :id_usr_cad)";
       $sql = $this->pdo->prepare($query);      
       $sql->bindValue(':nome', $produto->nome);
       $sql->bindValue(':descricao', $produto->descricao);
-      $sql->bindValue(':und_medida', $produto->und_medida);
+      $sql->bindValue(':id_und_medida', $produto->id_und_medida);
       $sql->bindValue(':id_usr_cad', $produto->id_usr_cad);      
       $sql->execute();
       
@@ -65,7 +70,7 @@ class Produto extends BaseModel {
       $query = "UPDATE produto 
                 SET nome = :nome,
                     descricao = :descricao,
-                    und_medida = :und_medida,
+                    id_und_medida = :id_und_medida,
                     id_usr_alter = :id_usr_alter,
                     ultima_alter = now()
                 WHERE id = :id";
@@ -73,7 +78,7 @@ class Produto extends BaseModel {
       $sql->bindValue(':id', $produto->id);
       $sql->bindValue(':nome', $produto->nome);
       $sql->bindValue(':descricao', $produto->descricao);
-      $sql->bindValue(':und_medida', $produto->und_medida);
+      $sql->bindValue(':id_und_medida', $produto->id_und_medida);
       $sql->bindValue(':id_usr_alter', $produto->id_usr_alter);
       $sql->execute();
       
