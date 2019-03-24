@@ -12,7 +12,7 @@ $route = [
   ['/produtos/{id}/atualizar', 'ProdutoController@atualizar'],
   ['/produtos/{id}/excluir', 'ProdutoController@excluir'], 
  
-  ['/orcamento/index', 'OrcamentoController@index'],
+  ['/orcamento', 'OrcamentoController@index'],
   ['/orcamento/cadastrar', 'OrcamentoController@cadastrar'],
   ['/orcamento/listar', 'OrcamentoController@listar'],
   ['/fornecedora/listar_atualizar', 'FornecedoraController@listar'],

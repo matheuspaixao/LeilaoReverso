@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\BaseController;
 use Core\Container;
 use Core\Session;
+use Core\Redirect;
 use Src\Classes\Orcamento;
 use Src\Classes\Produto;
 use Src\Classes\OrdemDeOrcamento as Ordem;
@@ -19,6 +20,8 @@ class OrcamentoController extends BaseController
       $this->orcamento = new Orcamento();
       $this->orcamento->setNome($request->post->nome);
       $this->orcamento->setAberto(isset($request->post->aberto));
+      $this->orcamento->setVigenciaInicio($request->post->vigencia_inicio);
+      $this->orcamento->setVigenciaFim($request->post->vigencia_fim);
       $this->orcamento->setIdUsrCad(Session::get('usuario')->id);
 
       for ($i = 0; $i < count($request->post->selectProd); $i++) {
@@ -31,12 +34,11 @@ class OrcamentoController extends BaseController
       $orcamentoModel = Container::getModel('Orcamento');
       $result = $orcamentoModel->insert($this->orcamento);
 
-      if ($result !== true)
+      if (is_numeric($result)) {        
+        Redirect::route('/orcamento');
+      } else {
         echo $result;
-
-      // echo '<pre>';
-      // print_r($this->orcamento);
-      // echo '</pre>';
+      }        
     } else {
       $produtoModel = Container::getModel('Produto');
       $this->produtos = $produtoModel->getProducts();
@@ -45,12 +47,14 @@ class OrcamentoController extends BaseController
       $this->renderView('orcamento/cadastrar', 'layout');
     }    
   }
-   public function listar() {
-        $this->setPageTitle('Orçamento');
-        $this->renderView('orcamento/listar', 'layout');
-    }
-    public function index() {
+  
+  public function listar() {
+    $this->setPageTitle('Orçamento');
+    $this->renderView('orcamento/listar', 'layout');
+  }
+
+  public function index() {
     $this->setPageTitle('Gerenciar Orçamento');
     $this->renderView('orcamento/index', 'layout');
-}
+  }
 }

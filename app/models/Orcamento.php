@@ -17,6 +17,8 @@ class Orcamento extends BaseModel
       $query = "SELECT O.id, 
                        O.nome, 
                        O.aberto, 
+                       O.vigencia_inicio,
+                       O.vigencia_fim,
                        O.id_usr_cad, 
                        O.id_usr_alter, 
                        O.criado_em, 
@@ -27,7 +29,15 @@ class Orcamento extends BaseModel
                   ON O.id = Ordem.id_orcamento
                 WHERE :nome is null 
                    OR O.nome like '%:nome%'
-                GROUP BY O.id, O.nome, O.aberto, O.id_usr_cad, O.id_usr_alter, O.criado_em, O.ultima_alter";
+                GROUP BY  O.id,
+                          O.nome, 
+                          O.aberto, 
+                          O.vigencia_inicio,
+                          O.vigencia_fim,
+                          O.id_usr_cad, 
+                          O.id_usr_alter, 
+                          O.criado_em, 
+                          O.ultima_alter";
       
       $sql = $this->pdo->prepare($query);
       $sql->bindValue(':nome', $search);      
@@ -69,11 +79,13 @@ class Orcamento extends BaseModel
       $this->pdo->beginTransaction();
 
       // inserir primeiro o orcamento
-      $queryOrc = "INSERT INTO orcamento(nome, aberto, id_usr_cad) VALUES(?, ?, ?)";
+      $queryOrc = "INSERT INTO orcamento(nome, aberto, vigencia_inicio, vigencia_fim, id_usr_cad) VALUES(?, ?, ?, ?, ?)";
       $sqlOrc = $this->pdo->prepare($queryOrc);
       $sqlOrc->execute(array( 
         $orcamento->getNome(),
         $orcamento->getAberto(),
+        $orcamento->getVigenciaInicio(),
+        $orcamento->getVigenciaFim(),
         $orcamento->getIdUsrCad()
       ));
 

@@ -5,7 +5,7 @@
       <h2 class="text-left">Cadastrar Orçamento</h2>
       <hr/>
       <div class="form-row">
-        <div class="col-md-6">
+        <div class="col-md-7">
           <label class="col-form-label">Nome do Orçamento</label>
           <input type="text" name="nome" class="form-control input-lg" placeholder="Nome do Orçamento" autofocus required/>
         </div>
@@ -13,6 +13,42 @@
         <div class="col-md-2">
           <label class="col-form-label">Orçamento aberto?</label>
           <input type="checkbox" checked name="aberto" data-toggle="toggle" data-on="Sim" data-off="Não" data-onstyle="danger">
+        </div>
+
+        <div class="col-md-4">
+          <label class="col-form-label">Início</label>
+          <?php 
+            if (!isset($this->orcamento->id)) {
+              date_default_timezone_set('America/Sao_Paulo');
+              $date = new DateTime();
+              $dataInput =  $date->format('Y-m-d\TH:i:s');
+            }
+            
+            echo "<input type='datetime-local' 
+                    name='vigencia_inicio' 
+                    value='". $dataInput ."'
+                    min='". $dataInput ."' 
+                    pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}'
+                    class='form-control input-lg' autofocus required />"
+          ?>          
+        </div>
+
+        <div class="col-md-4">
+          <label class="col-form-label">Fim</label>
+          <?php 
+            if (!isset($this->orcamento->id)) {
+              date_default_timezone_set('America/Sao_Paulo');
+              $date = new DateTime();
+              $date->modify('+1 day');
+              $dataInput =  $date->format('Y-m-d\TH:i:s');
+            }
+            
+            echo "<input type='datetime-local' 
+                    name='vigencia_fim' 
+                    value='". $dataInput ."' 
+                    pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}'
+                    class='form-control input-lg' autofocus required/>"
+          ?>
         </div>
 
         <div class="table-responsive"> 
@@ -56,10 +92,10 @@
           </button>
         </div>
         <div class="col-md-2">
-          <button type="submit" name="cancelar" class="btn btn-danger btn-block mt-3">
+          <a href="/orcamento" class="btn btn-danger btn-block mt-3 btn-center">
             Cancelar
             <span class="fa fa-times"></span>
-          </button>
+          </a>
         </div>
       
       </div>
@@ -70,20 +106,45 @@
 <script>  
   $(document).ready(function() {  
     var i = 1;
+    var produtos;
+    var prodDisp = new Array();
     var undProdutos = "<?php 
                           foreach($this->produtos as $produto)
                             echo $produto->id . "-" .$produto->und_medida .",";
                         ?>";
     var cmbBox;
-    var cmbBoxOptions = "<?php 
-                            foreach($this->produtos as $produto)
-                              echo "<option value='$produto->id'>$produto->nome</option>";
-                          ?>";
     var inptQtd = '<input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg mt-1" autofocus required>';
+
+    $(document).ready(function(){
+      str = "<?php
+                foreach($this->produtos as $produto)
+                  echo  $produto->id .' _ '. $produto->nome . ',';
+              ?>";
+      produtos = str.substring(0, str.length - 1).split(",");
+      
+      for (var i = 0; i < produtos.length; i++) 
+        prodDisp.push(true);
+    });
+
+    function getOptions() {
+      var i = 0;
+      var str = "";  
+      produtos.forEach(function(value) {
+        if (prodDisp[i])
+          str +=  "<option value='" + value.split(' _ ')[0] + "'>" + value.split(' _ ')[1] + "</option>";
+      })      
+      return str;
+    }
+
+    function removeOption(idProd) {
+      var index = produtos.findIndex(function(value) { return value.split(' _ ')[0] == idProd })
+      console.log(index);
+      prodDisp[index] = false;
+    }
       
     $('#addProd').click(function() {
       i++;
-      cmbBox  = '<select name="selectProd[]" id="selectProd-'+i+'" class="form-control input-lg mt-1 selectProd" autofocus required>  <option value="">Selecione o produto...</option>' + cmbBoxOptions;
+      cmbBox  = '<select name="selectProd[]" id="selectProd-'+i+'" class="form-control input-lg mt-1 selectProd" autofocus required>  <option value="">Selecione o produto...</option>' + getOptions();
       inptUnd = '<input type="text" id="und-'+i+'" name="und_medida[]" placeholder="und" readonly class="form-control input-lg mt-1">';
       
       $('#dynamic_field')
@@ -100,19 +161,7 @@
       var idProd = $(this).val();
       var value = undProdutos.split(',').find(function(value) { return value.split('-')[0] == idProd; });
       $('#und-'+indx).val(value.split('-')[1]);
+      //removeOption(idProd);
     });
-
-    // $('#submit').click(function() {            
-    //   $.ajax({  
-    //     url:"",  
-    //     method:"POST",  
-    //     data:$('#selectProd').serialize(),  
-    //     success:function(data) {  
-    //       alert(data);  
-    //       $('#selectProd')[0].reset();  
-    //     }  
-    //   });  
-    // });
-
   });  
 </script>

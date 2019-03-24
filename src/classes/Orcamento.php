@@ -9,6 +9,8 @@ class Orcamento
   public $id;
   public $nome;
   public $aberto;
+  public $vigencia_inicio;
+  public $vigencia_fim;
   public $ordens;
   public $id_usr_cad;
   public $id_usr_alter;
@@ -53,6 +55,22 @@ class Orcamento
 
   public function setAberto($aberto) {
     $this->aberto = $aberto;
+  }
+
+  public function getVigenciaInicio() {
+    return $this->vigencia_inicio;
+  }
+
+  public function setVigenciaInicio($vigencia_inicio) {
+    $this->vigencia_inicio = $vigencia_inicio;
+  }
+
+  public function getVigenciaFim() {
+    return $this->vigencia_fim;
+  }
+
+  public function setVigenciaFim($vigencia_fim) {
+    $this->vigencia_fim = $vigencia_fim;
   }
 
   public function getOrdens() {
