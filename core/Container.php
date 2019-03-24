@@ -15,8 +15,8 @@ class Container {
   }
 
   public static function pageNotFound() {
-    if (file_exists(__DIR__ . '/../App/Views/404.phtml'))
-      return require_once __DIR__ . '/../App/Views/404.phtml';
+    if (file_exists(__DIR__ . '/../app/views/404.phtml'))
+      return require_once __DIR__ . '/../app/views/404.phtml';
     else
       echo "ERRO 404! Page not found.";
   }
