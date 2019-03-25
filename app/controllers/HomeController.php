@@ -13,3 +13,4 @@ class HomeController extends BaseController
     $this->renderView('home/index', 'layout');
   }
 }
+?>

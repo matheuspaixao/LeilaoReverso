@@ -79,3 +79,4 @@ class ProdutoController extends BaseController
     $this->produto->$id_usr = Session::get('usuario')->id; //pode ser id_usr_alter ou id_usr_cad
   }
 }
+?>

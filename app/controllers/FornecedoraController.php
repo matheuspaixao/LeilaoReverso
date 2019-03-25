@@ -15,3 +15,4 @@ class FornecedoraController extends BaseController {
         $this->renderView('fornecedora/listar_atualizar', 'layout');
     }
 }
+?>

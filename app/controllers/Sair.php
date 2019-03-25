@@ -13,3 +13,4 @@ class Sair
     Redirect::route('/login');
   }
 }
+?>

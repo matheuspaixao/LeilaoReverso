@@ -17,3 +17,4 @@ class TesteController extends BaseController {
         $this->renderView('teste/index', 'layout');
     }
 }
+?>

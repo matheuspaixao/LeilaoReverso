@@ -100,7 +100,7 @@ a:active {
 
 a:hover {
   text-decoration: none;
-  color: red;
+  color:#f00;
 }
 
 /*tabelas*/

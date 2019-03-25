@@ -1,6 +1,8 @@
 <?php
 
 $route = [
+  ['/adm', 'AdmController@index'],
+
   ['/login', 'LoginController@index'],
   ['/login/autenticar', 'LoginController@autenticar'],
   ['/login/esqueci-senha', 'LoginController@esqueciSenha'],
@@ -16,6 +18,8 @@ $route = [
   ['/orcamento/cadastrar', 'OrcamentoController@cadastrar'],
   ['/orcamento/listar', 'OrcamentoController@listar'],
   ['/orcamento/aprovar', 'OrcamentoController@aprovar'],
+
+  ['/usuario', 'UsuarioController@index'],
 
   ['/fornecedora/listar_atualizar', 'FornecedoraController@listar'],
   ['/sair', 'Sair@logout'],

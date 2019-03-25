@@ -50,3 +50,4 @@ class LoginController extends BaseController
         $this->renderView('login/cadastrar', 'layout');
     }
 }
+?>
