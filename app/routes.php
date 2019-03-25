@@ -15,6 +15,8 @@ $route = [
   ['/orcamento', 'OrcamentoController@index'],
   ['/orcamento/cadastrar', 'OrcamentoController@cadastrar'],
   ['/orcamento/listar', 'OrcamentoController@listar'],
+  ['/orcamento/aprovar', 'OrcamentoController@aprovar'],
+
   ['/fornecedora/listar_atualizar', 'FornecedoraController@listar'],
   ['/sair', 'Sair@logout'],
   ['/teste', 'TesteController@index']

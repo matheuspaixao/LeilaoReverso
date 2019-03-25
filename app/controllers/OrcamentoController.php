@@ -57,4 +57,9 @@ class OrcamentoController extends BaseController
     $this->setPageTitle('Gerenciar Orçamento');
     $this->renderView('orcamento/index', 'layout');
   }
+
+  public function aprovar() {
+    $this->setPageTitle('Aprovar Orçamentos');
+    $this->renderView('orcamento/aprovar', 'layout');
+  }
 }
