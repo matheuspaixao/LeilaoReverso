@@ -76,8 +76,7 @@
                 <input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg" autofocus required>
               </td>
               <td>
-                <button type="button" name="addProd" id="addProd" class="btn btn-danger ml-1">
-                  Adicionar Linha
+                <button data-toggle="tooltip" title="Adcionar Linha" type="button" name="addProd" id="addProd" class="btn btn-danger ml-1">
                   <span class="fa fa-plus"></span>
                 </button>
               </td>
@@ -86,14 +85,10 @@
         </div>
       
         <div class="col-md-2">
-          <button type="submit" name="cadastrar" class="btn btn-danger btn-block mt-3">
-            Cadastrar
+          <button data-toggle="tooltip" title="Salvar" type="submit" name="cadastrar" class="btn btn-danger mt-3">
             <span class="fa fa-save"></span>
           </button>
-        </div>
-        <div class="col-md-2">
-          <a href="/orcamento" class="btn btn-danger btn-block mt-3 btn-center">
-            Cancelar
+          <a data-toggle="tooltip" title="Cancelar" href="/orcamento" class="btn btn-danger mt-3 ">
             <span class="fa fa-times"></span>
           </a>
         </div>

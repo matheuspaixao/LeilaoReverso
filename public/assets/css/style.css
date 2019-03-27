@@ -110,17 +110,23 @@ a:hover {
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
+.table-wrapper-scroll-x {
+  display: block;
+  max-height: 200px;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
 
 table tbody tr.odd td {
   background-color: white;
 }
 
 table tbody tr.hover td {
-  background-color: #a9f5a5;
+  background-color: #ffbdb9;
 }
 
 table tbody tr.selected td {
-  background-color: #a9f5a9 !important;
+  background-color: #ffbdb9 !important;
 }
 
 #cor-branca {

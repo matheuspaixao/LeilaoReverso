@@ -5,7 +5,7 @@ return [
     'host' => 'localhost',
     'name' => 'moremais',
     'user' => 'root',
-    'pass' => '',
+    'pass' => 'root',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci'
   ],

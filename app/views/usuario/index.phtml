@@ -1,20 +1,18 @@
 <div class="container">
   <div class="row header-pager">
-    <div class="col-6">
+    <div class="col-11">
       <h1>Usuários</h1>
     </div>
-    <div class="col-6">
-      <a href='/produtos/cadastrar'>
-        <button type='submit' name='alterar' class='btn btn-danger right-button'>
-          Cadastrar
-          <span class="fa fa-save"></span>
-        </button>
+    <div class="col-1">
+      <a data-toggle='tooltip' title='Cadastrar' href='/produtos/cadastrar' class='btn btn-danger mt-3'>
+          <span class="fa fa-plus"></span>
       </a>
     </div>
   </div>
   <hr>
-  <table class="table table-striped">
-    <thead>
+  <div class="table-wrapper-scroll-y table-wrapper-scroll-x">
+  <table cellspacing="0" class=" table table-striped table-hover table-sm" width="100%">
+    <thead class="bg-danger">
       <tr>
         <th scope="col">Nome</th>
         <th scope="col">Função</th>
@@ -26,9 +24,9 @@
           $i = 0;
 
           //foreach ($this->listaProdutos as $produto) {
-            $btnAlterar = "<a href=''
+            $btnAlterar = "<a data-toggle='tooltip' title='Editar' href=''
                             <button type='submit' name='alterar' class='btn btn-danger btn-block'>
-                              Alterar
+                              <span class='fa fa-pencil'></span>
                             </button>
                            </a>";
 
@@ -37,12 +35,13 @@
 
             echo "
             <tr>
-              <td>Matheus Oliveira Paixão</td>
+              <td>Matheus Oliveira Paixão </td>
               <td>Tesoureiro</td>
-              <td width='10%'>$btnAlterar</td>
+              <td width='5%'>$btnAlterar</td>
             </tr>";
          // }
         ?>
     </tbody>
   </table>
+  </div>
 </div>

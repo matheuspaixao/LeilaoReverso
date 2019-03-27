@@ -1,21 +1,20 @@
 <div class="container">
   <div class="row header-pager">
-    <div class="col-6">
+    <div class="col-11">
       <h1>Produtos</h1>
     </div>
-    <div class="col-6">
-      <a href='/produtos/cadastrar'>
-        <button type='submit' name='alterar' class='btn btn-danger right-button'>
-          Cadastrar
-          <span class="fa fa-save"></span>
+    <div class="col-1">
+      <a data-toggle='tooltip' title='Cadastrar' href='/produtos/cadastrar'>
+        <button type='submit' name='alterar' class='btn btn-danger mt-3'>
+          <span class="fa fa-plus"></span>
         </button>
       </a>
     </div>
   </div>
   <hr/>
-  <table class="table table-striped">
-    <thead>
-      <tr>
+  <div class="table-wrapper-scroll-y table-wrapper-scroll-x">
+  <table cellspacing="0" class=" table table-striped table-hover table-sm" width="100%">
+    <thead class="bg-danger">
         <th scope="col">Nº</th>
         <th scope="col">Nome</th>
         <th scope="col">Und medida</th>
@@ -28,28 +27,29 @@
           $i = 0;
 
           foreach ($this->listaProdutos as $produto) {
-            $btnAlterar = "<a href='/produtos/$produto->id/atualizar'
+            $btnAlterar = "<a data-toggle='tooltip' title='Editar' href='/produtos/$produto->id/atualizar'
                             <button mettod type='submit' name='alterar' class='btn btn-danger btn-block'>
-                              Alterar
+                              <span class='fa fa-pencil'></span>
                             </button>
                            </a>";
-            $btnExcluir = "<a href='/produtos/$produto->id/excluir'
+            $btnExcluir = "<a data-toggle='tooltip' title='Excluir' href='/produtos/$produto->id/excluir'
                             <button type='submit' name='excluir' class='btn btn-danger btn-block'>
-                              Excluir
+                              <span class='fa fa-trash'></span>
                             </button>
                            </a>";
             $i++;
 
             echo "
             <tr>
-              <th scope='row'>$i</th>
+              <td> <b>$i</b></td>
               <td>$produto->nome</td>
               <td>$produto->und_medida</td>
-              <td width='10%'>$btnAlterar</td>
-              <td width='10%'>$btnExcluir</td>
+              <td width='5%'>$btnAlterar</td>
+              <td width='5%'>$btnExcluir</td>
             </tr>";
           }
         ?>
     </tbody>
   </table>
+        </div>
 </div>
