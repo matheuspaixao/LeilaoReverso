@@ -14,16 +14,17 @@ class OrcamentoController extends BaseController
 {
   protected $produtos;
   protected $orcamento;
+  protected $listaOrcamentos;
   
   public function cadastrar($request) {
     if (isset($request->post->nome)) {
       $this->orcamento = new Orcamento();
       $this->orcamento->setNome($request->post->nome);
-      $this->orcamento->setAberto(isset($request->post->aberto));
+      $this->orcamento->setAberto(isset($request->post->aberto) ? 1 : 0);
       $this->orcamento->setVigenciaInicio($request->post->vigencia_inicio);
       $this->orcamento->setVigenciaFim($request->post->vigencia_fim);
       $this->orcamento->setIdUsrCad(Session::get('usuario')->id);
-
+      
       for ($i = 0; $i < count($request->post->selectProd); $i++) {
         $produto = new Produto();
         $produto->setId($request->post->selectProd[$i]);
@@ -49,6 +50,8 @@ class OrcamentoController extends BaseController
   }
   
   public function listar() {
+    $orcamentoModel = Container::getModel('Orcamento');
+    $this->listaOrcamentos = $orcamentoModel->getOrcamentos($this->orcamento);
     $this->setPageTitle('Orçamento');
     $this->renderView('orcamento/listar', 'layout');
   }

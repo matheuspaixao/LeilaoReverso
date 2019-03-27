@@ -12,23 +12,30 @@ class Orcamento extends BaseModel
 {
   // Ja existe um atributo $pdo fazendo conexão com o BD na classe BaseModel, use-o
 
-  public function getOrcamentos($search = null) {
+  public function getOrcamentos() {
     try {
       $query = "SELECT O.id, 
-                       O.nome, 
+                       CASE 
+                         WHEN LENGTH(O.nome) > 20 
+                         THEN CONCAT(LEFT(O.nome, 20), '...')
+                         ELSE O.nome
+                       END AS nome,
                        O.aberto, 
-                       O.vigencia_inicio,
-                       O.vigencia_fim,
+                       DATE_FORMAT(O.vigencia_inicio, '%d/%m/%Y %H:%i') AS vigencia_inicio,
+                       DATE_FORMAT(O.vigencia_fim, '%d/%m/%Y %H:%i') AS vigencia_fim,
                        O.id_usr_cad, 
                        O.id_usr_alter, 
                        O.criado_em, 
                        O.ultima_alter, 
-                       COUNT(Ordem.id_produto) AS qtdProdutos
+                       COUNT(Ordem.id_produto) AS qtdProdutos,
+                       CASE
+                         WHEN O.vigencia_fim < CURRENT_TIMESTAMP()
+                         THEN 0 
+                         ELSE 1
+                       END AS ativo
                 FROM orcamento O
                 INNER JOIN ordensdeorcamento Ordem
                   ON O.id = Ordem.id_orcamento
-                WHERE :nome is null 
-                   OR O.nome like '%:nome%'
                 GROUP BY  O.id,
                           O.nome, 
                           O.aberto, 
@@ -39,8 +46,7 @@ class Orcamento extends BaseModel
                           O.criado_em, 
                           O.ultima_alter";
       
-      $sql = $this->pdo->prepare($query);
-      $sql->bindValue(':nome', $search);      
+      $sql = $this->pdo->prepare($query);   
       $sql->execute();
 
       return $sql->fetchAll();

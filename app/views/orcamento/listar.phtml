@@ -21,81 +21,86 @@
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Orçamento</th>
+        <th scope="col">Inicio</th>
+        <th scope="col">Termino</th>
+        <th scope="col">Qtd. Prod.</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-         <?php 
-          $i = 0;
-
-          //foreach ($this->listaProdutos as $produto) {
-            $btnDetalhar = "<a href='/orcamento/aprovar'
-                            <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
-                              Detalhar
-                            </button>
-                           </a>";
-            $btnAlterar = "<a href=''
-                            <button type='submit' name='alterar' class='btn btn-danger btn-block'>
-                              Alterar
-                            </button>
-                           </a>";
-            $btnResponder = "<a href=''
-                            <button type='submit' name='responder' class='btn btn-danger btn-block'>
-                              Responder
-                            </button>
-                           </a>";
-        
-            $i++;
-
+      <?php 
+        $btnDetalhar = "<a href='/orcamento/aprovar'
+                        <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
+                          Detalhar
+                        </button>
+                        </a>";
+        $btnAlterar = "<a href=''
+                        <button type='submit' name='alterar' class='btn btn-danger btn-block'>
+                          Alterar
+                        </button>
+                        </a>";
+        $btnResponder = "<a href=''
+                        <button type='submit' name='responder' class='btn btn-danger btn-block'>
+                          Responder
+                        </button>
+                        </a>";
+    
+        foreach ($this->listaOrcamentos as $orcamento) {
+          if ($orcamento->ativo) {
             echo "
             <tr>
-              <th scope='row'>$i</th>
-              <td>Nome Orçamento</td>
+              <th scope='row'>$orcamento->id</th>
+              <td>$orcamento->nome</td>
+              <td>$orcamento->vigencia_inicio</td>
+              <td>$orcamento->vigencia_fim</td>
+              <td>$orcamento->qtdProdutos</td>
               <td width='10%'>$btnDetalhar</td>
               <td width='10%'>$btnAlterar</td>
               <td width='10%'>$btnResponder</td>
             </tr>";
-         // }
-        ?>
+          }
+        } 
+      ?>
     </tbody>
   </table>
   <hr>
-  <h5 class="text-left">Meus Orçamentos Finalizados</h5>
+  <h5 class="text-left">Finalizados</h5>
   <hr>
     <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Orçamento</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+        <th scope="col">Inicio</th>
+        <th scope="col">Termino</th>
+        <th scope="col">Qtd. Prod.</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-         <?php 
-          $i = 0;
+      <?php 
+        $btnDetalhar = "<a href=''
+                        <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
+                          Detalhar
+                        </button>
+                        </a>";
 
-          //foreach ($this->listaProdutos as $produto) {
-            $btnDetalhar = "<a href=''
-                            <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
-                              Detalhar
-                            </button>
-                           </a>";
-            $i++;
-
+        foreach ($this->listaOrcamentos as $orcamento) {
+          if (!$orcamento->ativo) {
             echo "
             <tr>
-              <th scope='row'>$i</th>
-              <td>Nome Orçamento</td>
-              <td width='10%'></td>
-              <td width='10%'></td>
-              <td width='10%'>$btnDetalhar</td>
+              <th scope='row'>$orcamento->id</th>
+              <td>$orcamento->nome</td>
+              <td>$orcamento->vigencia_inicio</td>
+              <td>$orcamento->vigencia_fim</td>
+              <td>$orcamento->qtdProdutos</td>
+              <td width='10%'>$btnResponder</td>
             </tr>";
-         // }
-        ?>
+          }
+        }
+      ?>
     </tbody>
   </table>
 </div>
