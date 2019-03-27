@@ -5,8 +5,9 @@
     </div>
   </div>
 
-  <table class="table table-striped">
-    <thead>
+  <div class="table-wrapper-scroll-y table-wrapper-scroll-x">
+  <table cellspacing="0" class=" table table-striped table-hover table-sm" width="100%">
+    <thead class="bg-danger">
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Fantasia</th>
@@ -19,34 +20,36 @@
           $i = 0;
 
           //foreach ($this->listaProdutos as $produto) {
-            $btnDados = "<a href=''
+            $btnDados = "<a data-toggle='tooltip' title='Dados' href=''
                             <button mettod type='submit' name='dados' class='btn btn-danger btn-block'>
-                              Dados
+                              <span class='fa fa-database'></span>
                             </button>
                            </a>";
-            $btnAlterar = "<a href=''
+            $btnAlterar = "<a data-toggle='tooltip' title='Editar' href=''
                             <button type='submit' name='alterar' class='btn btn-danger btn-block'>
-                              Alterar
+                              <span class='fa fa-pencil'></span>
                             </button>
                            </a>";
             $i++;
 
             echo "
             <tr>
-              <th scope='row'>$i</th>
+              <td><b>$i<b/></th>
               <td>Nome Fantasia</td>
-              <td width='10%'>$btnDados</td>
-              <td width='10%'>$btnAlterar</td>
+              <td width='5%'>$btnDados</td>
+              <td width='5%'>$btnAlterar</td>
             </tr>";
          // }
         ?>
     </tbody>
   </table>
+          </div>
   <hr>
   <h5 class="text-left">Validar</h5>
   <hr>
-  <table class="table table-striped">
-    <thead>
+  <div class="table-wrapper-scroll-y table-wrapper-scroll-x">
+  <table cellspacing="0" class=" table table-striped table-hover table-sm" width="100%">
+    <thead class="bg-danger">
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Fantasia</th>
@@ -59,27 +62,28 @@
           $i = 0;
 
           //foreach ($this->listaProdutos as $produto) {
-            $btnDados = "<a href=''
+            $btnDados = "<a data-toggle='tooltip' title='Dados' href=''
                             <button mettod type='submit' name='alterar' class='btn btn-danger btn-block'>
-                              Dados
+                              <span class='fa fa-database'></span>
                             </button>
                            </a>";
-            $btnValidar = "<a href=''
+            $btnValidar = "<a data-toggle='tooltip' title='Validar' href=''
                             <button type='submit' name='excluir' class='btn btn-danger btn-block'>
-                              Validar
+                              <span class='fa fa-check'></span>
                             </button>
                            </a>";
             $i++;
 
             echo "
             <tr>
-              <th scope='row'>$i</th>
+              <td><b>$i</b></td>
               <td>Nome Fantasia</td>
-              <td width='10%'>$btnDados</td>
-              <td width='10%'>$btnValidar</td>
+              <td width='5%'>$btnDados</td>
+              <td width='5%'>$btnValidar</td>
             </tr>";
          // }
         ?>
     </tbody>
   </table>
+          </div>
 </div>
