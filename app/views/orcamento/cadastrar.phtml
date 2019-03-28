@@ -108,7 +108,7 @@
                             echo $produto->id . "-" .$produto->und_medida .",";
                         ?>";
     var cmbBox;
-    var inptQtd = '<input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg mt-1" autofocus required>';
+    var inptQtd = '<input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg mt-1" >';
 
     $(document).ready(function(){
       str = "<?php
@@ -139,11 +139,11 @@
       
     $('#addProd').click(function() {
       i++;
-      cmbBox  = '<select name="selectProd[]" id="selectProd-'+i+'" class="form-control input-lg mt-1 selectProd" autofocus required>  <option value="">Selecione o produto...</option>' + getOptions();
+      cmbBox  = '<select name="selectProd[]" id="selectProd-'+i+'" class="form-control input-lg mt-1 selectProd" required>  <option value="">Selecione o produto...</option>' + getOptions();
       inptUnd = '<input type="text" id="und-'+i+'" name="und_medida[]" placeholder="und" readonly class="form-control input-lg mt-1">';
       
       $('#dynamic_field')
-      .append('<tr id="row'+i+'"><td>'+cmbBox+'</td> <td>'+inptUnd+'</td> <td>'+inptQtd+'</td> <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove mt-1">X</button></td></tr>');  
+      .append('<tr id="row'+i+'"><td>'+cmbBox+'</td> <td>'+inptUnd+'</td> <td>'+inptQtd+'</td> <td><button data-toggle="tooltip" title="Cancelar" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove mt-1"> <span class="fa fa-times"></span></button></td></tr>');  
     });
 
     $(document).on('click', '.btn_remove', function() {  

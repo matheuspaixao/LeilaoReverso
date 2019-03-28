@@ -26,14 +26,13 @@
         <div class="col-md-12" style="padding-top: 10px;">
           <textarea type="text" name="descricao" placeholder="Descrição" class="form-control"><?php echo $this->produto->descricao ?></textarea>
         </div>
-        <div class="col-md-2">
-          <button type="submit" name="acaoAndIdUser" value="<?php echo $this->produto->id ?>" class="btn btn-danger btn-block mt-3 btn-center">
-              <?php echo isset($this->produto->id) ? 'Alterar' : 'Cadastrar <span class="fa fa-save"></span>'; ?>
+        <div class="col-md-1">
+          <button data-toggle="tooltip" title="Salvar" type="submit" name="acaoAndIdUser" value="<?php echo $this->produto->id ?>" class="btn btn-danger mt-3 btn-center">
+              <?php echo isset($this->produto->id) ? '<span class="fa fa-save"' : '<span class="fa fa-save"></span>'; ?>
           </button>
         </div>
-        <div class="col-md-2">
-          <a href="/produtos" class="btn btn-danger btn-block mt-3 btn-center">
-              Cancelar
+        <div class="col-md-1">
+          <a data-toggle="tooltip" title="Cancelar" href="/produtos" class="btn btn-danger mt-3 ">
               <span class="fa fa-times"></span>
           </a>
         </div>

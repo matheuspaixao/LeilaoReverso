@@ -13,5 +13,11 @@ class UsuarioController extends BaseController {
         $this->setPageTitle('Usuários');
         $this->renderView('usuario/index', 'layout');
     }
+
+    public function cadastrar() {
+        $this->setPageTitle('Cadastrar Usuários');
+        $this->renderView('usuario/cadastrar', 'layout');
+    }
 }
+
 ?>
