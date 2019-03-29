@@ -10,6 +10,7 @@ use Core\Session;
 class LoginController extends BaseController 
 {
   protected $aviso = null;
+  protected $usuarios;
 
   public function index() {
     if (Session::get('avisoLogin')) {
@@ -45,9 +46,12 @@ class LoginController extends BaseController
     $this->setPageTitle('Login');
     $this->renderView('login/esqueci-senha', 'layout');
   }
-      public function cadastrar() {
-        $this->setPageTitle('Fornecedora');
-        $this->renderView('login/cadastrar', 'layout');
-    }
+  
+  public function cadastrar() {
+    $loginModel = Container::getModel('Login');
+    $this->usuarios = $loginModel->getUsersLogin();
+    $this->setPageTitle('Fornecedora');
+    $this->renderView('login/cadastrar', 'layout');
+  }
 }
 ?>

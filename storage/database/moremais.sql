@@ -310,11 +310,14 @@ CREATE TABLE `usuario` (
   `num_documento` varchar(20) NOT NULL,
   `tipo_documento` varchar(20) NOT NULL,
   `endereco` varchar(30) DEFAULT NULL,
+  `numero` int(11) DEFAULT NULL,
   `cidade` varchar(30) DEFAULT NULL,
+  `UF` varchar(3) DEFAULT NULL,
   `cep` int(11) DEFAULT NULL,
   `criado_em` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_tipo_usuario` (`id_tipo_usuario`),
+  CONSTRAINT UK_login unique (`login`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_tipo_usuario`) REFERENCES `tipousuario` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -325,7 +328,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'matheuspaixao','12345','Matheus Paixão de Oliveira','matheus.tec3@gmail.com','88992594124',1,'063.685.703-42','CPF',NULL,NULL,NULL,'2019-03-23 19:18:05'),(2,'hugofirmino','12345','Hugo Firmino Damasceno','teste@teste.com','88900000000',1,'000.000.000-00','CPF',NULL,NULL,NULL,'2019-03-23 19:18:05'),(3,'franciscodaniel','12345','Francisco Daniel Freitas Martins','teste@teste.com','88900000000',1,'000.000.000-00','CPF',NULL,NULL,NULL,'2019-03-23 19:18:05'),(4,'thalesandrade','12345','Thales Andrade','teste@teste.com','88900000000',1,'000.000.000-00','CPF',NULL,NULL,NULL,'2019-03-23 19:18:05');
+INSERT INTO `usuario`() VALUES (1,'matheuspaixao','12345','Matheus Paixão de Oliveira','matheus.tec3@gmail.com','88992594124',1,'063.685.703-42','CPF',NULL,NULL,NULL,NULL,NULL,'2019-03-23 19:18:05'),(2,'hugofirmino','12345','Hugo Firmino Damasceno','teste1@teste.com','88900000000',1,'000.000.000-00','CPF',NULL,NULL,NULL,NULL,NULL,'2019-03-23 19:18:05'),(3,'franciscodaniel','12345','Francisco Daniel Freitas Martins','teste2@teste.com','88900000000',1,'000.000.000-00','CPF',NULL,NULL,NULL,NULL,NULL,'2019-03-23 19:18:05'),(4,'thalesandrade','12345','Thales Andrade','teste3@teste.com','88900000000',1,'000.000.000-00','CPF',NULL,NULL,NULL,NULL,NULL,'2019-03-23 19:18:05');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -5,66 +5,105 @@
       <hr>
       <div class="form-row">
         <div class="col-md-6">
-         <label class="col-form-label"> Nome </label>  
-        <input type="text" name="nome" placeholder="Nome da Empresa" autofocus required class="form-control" 
+          <label class="col-form-label"> Usuário </label>  
+          <input type="text" name="login" placeholder="Usuário de login" autofocus required class="form-control" 
           value="">
         </div>
-        <div class="col-md-6">
-           <label class="col-form-label"> Nome Fantasia </label>
-          <input type="text" name="nome" placeholder="Nome Fantasia" required class="form-control" 
-          value="">
+        <div class="col-md-3">
+          <label class="col-form-label"> Senha </label>
+          <input type="password" name="senha" placeholder="Senha de login" required class="form-control" 
+            value="">
         </div>
      </div>
-    <div class="form-row">
-        <div class="col-md-3">
-           <label class="col-form-label"> CNPJ </label>
-          <input type="text" name="cnpj" placeholder="CNPJ" required class="form-control" 
+      <div class="form-row">
+        <div class="col-md-6">
+          <label class="col-form-label"> Nome </label>  
+          <input type="text" name="nome" placeholder="Nome da Empresa" autofocus required class="form-control" 
           value="">
         </div>
         <div class="col-md-3">
-          <label class="col-form-label" for="telefone"> Telefone </label>
-          <input type="text" name="telefone" id="telefone" class="form-control" required 
-                               value=""/>
+          <label class="col-form-label"> CNPJ/CPF </label>
+          <input type="text" name="num_documento" placeholder="CNPJ/CPF" required class="form-control" 
+            value="">
         </div>
+        <div style="padding-top: 30px;">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipo_documento" value="CNPJ" checked>
+            <label class="form-check-label"> CPNJ </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipo_documento" value="CPF">
+            <label class="form-check-label"> CPF </label>
+          </div>
+        </div>
+     </div>
+    <div class="form-row">      
+      <div class="col-md-3">
+        <label class="col-form-label" for="telefone"> Telefone </label>
+        <input type="text" name="telefone" id="telefone" class="form-control" required placeholder="(00) 90000-000"
+          value=""/>
+      </div>
+      <div class="col-md-3">
+        <label class="col-form-label" for="email"> E-mail </label>
+        <input type="email" name="email" id="email" class="form-control" required placeholder="meuemail@email.com"
+          value=""/>
+      </div>  
       <div class="col-md-5">
         <label class="col-form-label"> Endereço </label>
         <input type="text" name="endereco" id="endereco" class="form-control input-lg" onkeyup="UpperCase(this)"
-                               required placeholder="Rua ..." value="" />
+          required placeholder="Rua ..." value="" />
       </div>
       <div class="col-md-1">
         <label class="col-form-label"> Nº </label>
         <input type="text" name="numero" id="numero" class="form-control input-lg" onkeyup="UpperCase(this)"
-                               required placeholder="" value="" />
+                               required placeholder="000" value="" />
       </div>
     </div> 
     <div class="form-row">
       <div class="col-md-5">
+        <label class="col-form-label"> CEP </label>
+        <input type="text" name="cep" id="cep" class="form-control input-lg" onkeyup="LowerCase(this)"
+                               required placeholder="00000-000" value="" />
+      </div>
+      <div class="col-md-5">
         <label class="col-form-label"> Cidade </label>
         <input type="text" name="cidade" id="cidade" class="form-control input-lg" onkeyup="UpperCase(this)"
-                               required placeholder="Sobral" value="" />
+                               required placeholder="Sua cidade..." value="" />
       </div>
       <div class="col-md-2">
         <label class="col-form-label"> UF </label>
-        <input type="text" name="uf" id="uf" class="form-control input-lg" onkeyup="UpperCase(this)"
-                               required placeholder="CE" value=" "/>
-      </div>
-      <div class="col-md-5">
-        <label class="col-form-label"> País </label>
-        <input type="text" name="pais" id="pais" onkeyup="UpperCase(this)" class="form-control input-lg" 
-                               placeholder="Brasil" onkeyup="UpperCase(this)" value=""/>
+        <select name="UF" id="UF" class="form-control">
+          <option value="" selected hidden>Selecione...</option>
+          <option value="AC">AC</option>
+          <option value="AL">AL</option>
+          <option value="AM">AM</option>
+          <option value="AP">AP</option>
+          <option value="BA">BA</option>
+          <option value="CE">CE</option>
+          <option value="DF">DF</option>
+          <option value="ES">ES</option>
+          <option value="GO">GO</option>
+          <option value="MA">MA</option>
+          <option value="MG">MG</option>
+          <option value="MS">MS</option>
+          <option value="MT">MT</option>
+          <option value="PA">PA</option>
+          <option value="PB">PB</option>
+          <option value="PE">PE</option>
+          <option value="PI">PI</option>
+          <option value="PR">PR</option>
+          <option value="RJ">RJ</option>
+          <option value="RN">RN</option>
+          <option value="RO">RO</option>
+          <option value="RR">RR</option>
+          <option value="RS">RS</option>
+          <option value="SC">SC</option>
+          <option value="SE">SE</option>
+          <option value="SP">SP</option>
+          <option value="TO">TO</option>
+        </select>
       </div>
     </div>
-    <hr>
-    <h5 class="text-left">Selecione Produtos que Fornece</h5>
-    <hr>
-
-      <p><input type="checkbox" id="checkTodos" name="checkTodos"> Selecionar Todos</p>
-        
-      <p><input type="checkbox" value="1"> Areia</p>
-      <p><input type="checkbox" value="2"> Ferro</p>
-      <p><input type="checkbox" value="3"> Telha</p>
-      <p><input type="checkbox" value="4"> Tijolo</p>
-      <p><input type="checkbox" value="5"> Madeira</p>
 
     <div class="form-row">
       <div class="col-md-12 ">
@@ -100,7 +139,7 @@
     checkTodos.click(function () {
         if ( $(this).is(':checked') ){
             $('input:checkbox').prop("checked", true);
-        }else{
+        } else{
             $('input:checkbox').prop("checked", false);
         }
     });

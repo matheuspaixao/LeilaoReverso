@@ -22,4 +22,16 @@ class Login extends BaseModel
       return $e->getMessage();
     }
   }
+
+  public function getUsersLogin() {
+    try {
+      $query = "SELECT login FROM usuario";
+      $sql = $this->pdo->prepare($query);
+      $sql->execute();
+      
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
 }
