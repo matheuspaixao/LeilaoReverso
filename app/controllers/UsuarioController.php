@@ -19,5 +19,3 @@ class UsuarioController extends BaseController {
         $this->renderView('usuario/cadastrar', 'layout');
     }
 }
-
-?>

@@ -24,7 +24,7 @@ class LoginController extends BaseController
 
   public function autenticar($request) {
     $loginModel = Container::getModel('Login');
-    $usuario = $loginModel->getUserById($request->post->login);
+    $usuario = $loginModel->getUserByLogin($request->post->login);
 
     if (count($usuario) == 0) {
       Redirect::route('/login', [
@@ -47,11 +47,35 @@ class LoginController extends BaseController
     $this->renderView('login/esqueci-senha', 'layout');
   }
   
-  public function cadastrar() {
+  public function cadastrarFornecedora($request) {
+    if (isset($request->post->cadastrar)) {
+      $loginModel = Container::getModel('Login');
+      $usuario = $request->post;
+      $usuario->tipo_usuario = 'Fornecedor Desativado';
+      $loginModel = Container::getModel('Login');
+      $result = $loginModel->insertFornecedora($usuario);
+      
+      if (is_numeric($result)) {        
+        Redirect::route('/login', [
+          'avisoLogin' => 'Usuário cadastrado com sucesso!'
+        ]);
+      } else {
+        Redirect::route('/login', [
+          'avisoLogin' => 'Ocorreu um erro ao cadastrar seu usuário!'
+        ]);
+      }
+    }
+    else {
+      $loginModel = Container::getModel('Login');
+      $this->usuarios = $loginModel->getUsersLogin();
+      $this->setPageTitle('Fornecedora');
+      $this->renderView('login/cadastrar', 'layout');
+    }    
+  }
+
+  public function verificarUsuario($login) {
     $loginModel = Container::getModel('Login');
-    $this->usuarios = $loginModel->getUsersLogin();
-    $this->setPageTitle('Fornecedora');
-    $this->renderView('login/cadastrar', 'layout');
+    $usuario = $loginModel->getUserByLogin($login);
+    echo sizeof($usuario) > 0 ? 1 : 0;
   }
 }
-?>

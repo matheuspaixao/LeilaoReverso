@@ -6,8 +6,9 @@ $route = [
   ['/login', 'LoginController@index'],
   ['/login/autenticar', 'LoginController@autenticar'],
   ['/login/esqueci-senha', 'LoginController@esqueciSenha'],
-  ['/login/cadastrar', 'LoginController@cadastrar'],
+  ['/login/cadastrar', 'LoginController@cadastrarFornecedora'],
   ['/', 'HomeController@index'],
+  ['/login/verificarUsuario/{login}', 'LoginController@verificarUsuario'],
     
   ['/produtos', 'ProdutoController@listar'],
   ['/produtos/cadastrar', 'ProdutoController@cadastrar'],
