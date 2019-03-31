@@ -20,4 +20,11 @@ class Container {
     else
       echo "ERRO 404! Page not found.";
   }
+
+  public static function noAccess() {
+    if (file_exists(__DIR__ . '/../app/views/noAccess.phtml'))
+      return require_once __DIR__ . '/../app/views/noAccess.phtml';
+    else
+      echo "ERRO! You don't have access to this page.";
+  }
 }

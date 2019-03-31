@@ -14,7 +14,7 @@ class Route {
   private function setRoutes($routes) {
     foreach ($routes as $route) {
       $explode = explode('@', $route[1]);
-      $r = [$route[0], $explode[0], $explode[1]];
+      $r = [$route[0], $explode[0], $explode[1], $route[2]];
       $newRoutes[] = $r;
     }
 
@@ -57,6 +57,7 @@ class Route {
       if ($found = ($url == $route[0])) {
         $controller = $route[1];
         $action = $route[2];
+        $nivel_acesso = $route[3];
         break;
       }
     }
@@ -66,6 +67,11 @@ class Route {
         Redirect::route('/login');
         return;
       }
+
+      if ($controller !== 'LoginController' && Session::get('usuario')->nivel_acesso < $nivel_acesso) {
+        Container::noAccess();
+        return;
+      }      
 
       $controller = Container::newController($controller);
       

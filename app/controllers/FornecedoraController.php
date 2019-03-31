@@ -10,9 +10,27 @@ use Core\Session;
 
 class FornecedoraController extends BaseController {
     
-    public function listar() {
-        $this->setPageTitle('Fornecedora');
-        $this->renderView('fornecedora/listar_atualizar', 'layout');
-    }
+  protected $fornecedoras;
+
+  public function listar() {
+    $fornecedoraModel = Container::getModel('Fornecedora');
+    $this->fornecedoras = $fornecedoraModel->getFornecedoras();
+    $this->setPageTitle('Fornecedora');
+    $this->renderView('fornecedora/listar_atualizar', 'layout');
+  }
+
+  public function aprovar($fornecedoraId) {
+    if (is_numeric($fornecedoraId)) {
+      $fornecedoraModel = Container::getModel('Fornecedora');
+      $result = $fornecedoraModel->aprovarFornecedora($fornecedoraId);
+
+      if (is_numeric($result))
+        Redirect::route('/fornecedora/listar');
+      else
+        print_r($result);
+    } else {
+      Redirect::route('/fornecedora/listar');
+    }    
+  }
 }
 ?>

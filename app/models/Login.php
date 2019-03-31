@@ -12,7 +12,11 @@ class Login extends BaseModel
 
   public function getUserByLogin($login) {
     try {
-      $query = "SELECT * FROM usuario WHERE login = :login";
+      $query = "SELECT u.*, t.nivel_acesso
+                FROM usuario u
+                INNER JOIN tipoUsuario t
+                  ON u.id_tipo_usuario = t.id
+                WHERE login = :login";
       $sql = $this->pdo->prepare($query);
       $sql->bindValue(':login', $login);
       $sql->execute();
@@ -61,7 +65,6 @@ class Login extends BaseModel
     try {
       $query = "SELECT * FROM tipoUsuario WHERE nome = ?";
       $sql = $this->pdo->prepare($query);
-      //$sql->bindValue(':login', $login);
       $sql->execute([ $tipo_usuario ]);
       
       return $sql->fetchAll()[0];
