@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row header-pager">
+    <div class="col-6">
+      <h1>Nome do orçamento</h1>
+    </div>
+  </div>
+  <hr>
+  <div style="overflow-x:auto;">
+    <table class="table table-striped table-bordered table-sm dtHorizontal" cellspacing="" width="100%">
+    <?php
+      $fornecedora = array();
+      echo "
+      <thead>
+        <tr>
+        <th>Produto</th>
+        <th>Und</th>
+        <th>Qtd</th>";
+
+      foreach($this->orcamentoDetalhado as $orcamento) {
+        if (!isset($fornecedora[$orcamento->fornecedora])) {
+          $fornecedora[$orcamento->fornecedora] = 1;
+          echo "<th>$orcamento->fornecedora</th>";
+        }        
+      }
+
+      echo " 
+        </tr>
+      </thead>";
+      echo "
+      <tbody>
+        <tr>";
+
+      $totais;
+
+      foreach ($this->orcamentoDetalhado as $orcamento) {
+        if (!isset($totais[$orcamento->idOrdOrc])) {
+          $totais[$orcamento->idOrdOrc] = 0;
+          echo "      
+            <td>$orcamento->nomeProd</td>
+            <td>$orcamento->undProd</td>
+            <td>$orcamento->qtdProd</td>";
+
+          foreach ($this->orcamentoDetalhado as $orcamento2) {
+            if (!empty($orcamento2->idOrdOrc) && $orcamento2->idOrdOrc == $orcamento->idOrdOrc) {
+              $totais[$orcamento->idOrdOrc] += $orcamento->valor;
+              echo "
+              <td>
+                <div class='form-check form-check-inline'>
+                  <input class='form-check-input' type='radio' name='orc_$orcamento->idOrdOrc' 
+                  id='orc_$orcamento->idOrdOrc'>
+                  <label class='form-check-label' for='orc_$orcamento->idOrdOrc'>$orcamento->valor</label>
+                </div>
+              </td>
+              ";
+            }
+          }
+        }
+      }     
+
+      echo "
+          </tr>
+      </tbody>";
+
+      echo "
+      <tfoot>
+        <tr class = 'bg-danger'>
+          <td colspan='3' align='center'><b>Total</b></td>";
+          foreach ($totais as $total) {
+            echo "<td><b>R$ $total</b></td>";
+          }
+      echo "
+        </tr>
+      </tfoot>";
+      
+      ?>
+    </table>
+  </div>  
+
+  <div class="form-row">
+    <div class="col-md-1">
+      <a data-toggle='tooltip'title='voltar' class="btn btn-danger btn-center" href="/orcamento">
+         Finalizar
+         <span class="fa check"></span>
+      </a>
+    </div>
+    <div class="col-md-1">
+      <a data-toggle='tooltip'title='voltar' class="btn btn-danger btn-center" href="/orcamento/listar">
+         Voltar
+         <span class="fa fa-undo"></span>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row icones">
-    <div class="col-6 col-sm-6 col-md-4 text-center">
+    <div class="col-6 col-sm-6 col-md-4 text-center" id="cadastrar">
       <a href="/orcamento/cadastrar">
         <img src="/assets/img/cadastrar.png" height="80">
         <h5 class="mt-2 text-dark">Cadastrar Orçamento</h5>
@@ -20,3 +20,17 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+    var nivel_acesso = <?php 
+                          use Core\Session; 
+                          echo Session::get('usuario')->nivel_acesso;  
+                        ?>;
+    
+    if (nivel_acesso < 5) {
+      $("#cadastrar").remove();
+    }
+  });
+
+</script>

@@ -1,43 +1,70 @@
 <div class="container-fluid">
   <div class="row icones">
-  <div class="col-12 col-sm-6 col-md-4 text-center">
+    <div class="col-md-4 text-center" id="meuperfil">
       <a href="/adm">
         <img src="/assets/img/adm.png" height="80">
-          <h5 class="mt-2 text-dark">Meu Perfil</h5>
+        <h5 class="mt-2 text-dark">Meu Perfil</h5>
       </a>
     </div>
-    <div class="col-12 col-sm-6 col-md-4 text-center">
+    
+    <div class="col-md-4 text-center" id="usuarios">
       <a href="/usuario">
         <img src="/assets/img/user.png" height="80">
-          <h5 class="mt-2 text-dark">Gerenciar Usuários</h5>
+        <h5 class="mt-2 text-dark">Usuários</h5>
       </a>
     </div>
-    <div class="col-12 col-sm-6 col-md-4 text-center">
+    <div class="col-md-4 text-center" id="orcamentos">
       <a href="/orcamento">
         <img src="/assets/img/orcamento.png" height="80">
-          <h5 class="mt-2 text-dark">Gerenciar Orçamentos</h5>
+        <h5 class="mt-2 text-dark">Orçamentos</h5>
       </a>
     </div>
   </div>
   <div class="row icones">
-  <div class="col-12 col-sm-6 col-md-4 text-center">
+    <div class="col-md-4 text-center" id="fornecedoras">
       <a href="/fornecedora/listar">
         <img src="/assets/img/fornecedora.png" height="80">
-          <h5 class="mt-2 text-dark">Gerenciar Fornecedoras</h5>
+        <h5 class="mt-2 text-dark">Fornecedoras</h5>
       </a>
     </div>
-  <div class="col-12 col-sm-6 col-md-4 text-center">
+    <div class="col-md-4 text-center" id="produtos">
       <a href="/produtos">
         <img src="/assets/img/produtos.png" height="80">
-          <h5 class="mt-2 text-dark">Gerenciar Produtos</h5>
+        <h5 class="mt-2 text-dark">Produtos</h5>
       </a>
     </div>
-    <div class="col-12 col-sm-6 col-md-4 text-center">
+    <div class="col-md-4 text-center" id="relatorios">
       <a href="">
         <img src="/assets/img/relatorio.png" height="80">
-          <h5 class="mt-2 text-dark">Relatórios</h5>
+        <h5 class="mt-2 text-dark">Relatórios</h5>
       </a>
-    </div>
-    
+    </div>    
   </div>    
 </div>
+
+<script>
+  $(document).ready(function() {
+    var nivel_acesso = <?php 
+                          use Core\Session; 
+                          echo Session::get('usuario')->nivel_acesso;  
+                        ?>;
+    
+    if (nivel_acesso < 3) {
+      $("#orcamentos").remove();
+      $("#fornecedoras").remove();
+      $("#produtos").remove();
+      $("#relatorios").remove();
+      $("#usuarios").remove();
+    }
+    else if (nivel_acesso < 5) {
+      $("#fornecedoras").remove();
+      $("#produtos").remove();
+      $("#relatorios").remove();
+      $("#usuarios").remove();
+    }
+    else if (nivel_acesso < 10) {      
+      $("#usuarios").remove();
+    }    
+  });
+
+</script>

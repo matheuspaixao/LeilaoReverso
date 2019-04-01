@@ -57,24 +57,64 @@ class Orcamento extends BaseModel
 
   public function getOrcamentoById($id) {
     try {
-      $query = "SELECT O.id AS IdOrc, 
-                       O.nome AS NomeOrc,
-                       O.aberto AS AbertoOrc,
-                       Ordem.id AS IdOrdem,
-                       P.id AS IdProd,
-                       P.nome AS NomeProd,
-                       Ordem.quantidade AS QtdProd
+      $query = "SELECT O.id AS idOrc, 
+                       O.nome AS nomeOrc,
+                       O.aberto AS abertoOrc,
+                       Ordem.id AS idOrdem,
+                       P.nome AS nomeProd,
+                       und.unidade AS undProd,
+                       Ordem.quantidade AS qtdProd
                 FROM orcamento O
                 INNER JOIN ordensdeorcamento Ordem
                   ON O.id = Ordem.id_orcamento
                 INNER JOIN produto P
                   ON Ordem.id_produto = P.id
+                INNER JOIN undmedida und
+                  ON P.id_und_medida = und.id
                 WHERE O.id = :id";
       $sql = $this->pdo->prepare($query);
       $sql->bindValue(':id', $id);      
       $sql->execute();
 
-      return $sql->fetchAll()[0];
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function getFullOrcamentoById($id) {
+    try {
+      $query = "SELECT O.id AS idOrc, 
+                       O.nome AS nomeOrc,
+                       O.aberto AS orcAberto,
+                       ordemO.id AS idOrdOrc,
+                       P.id AS idProd,
+                       P.nome AS nomeProd,
+                       und.unidade AS undProd,
+                       ordemO.quantidade AS qtdProd,
+                       u.nome AS fornecedora,
+                       ordemP.id AS idOrdProp,
+                       ordemP.valor,
+                       ordemP.aceita
+                FROM orcamento O
+                INNER JOIN ordensDeOrcamento ordemO
+                  ON O.id = ordemO.id_orcamento
+                INNER JOIN produto P
+                  ON ordemO.id_produto = P.id
+                INNER JOIN undmedida und
+                  ON P.id_und_medida = und.id
+                LEFT JOIN propostaDeOrcamento prop
+                  ON ordemO.id = prop.id_orcamento
+                LEFT JOIN ordensDeProposta ordemP
+                  ON prop.id = ordemP.id_prop_orc
+                  AND ordemO.id = ordemP.id_ord_orc
+                LEFT JOIN usuario u
+                  ON prop.id_fornecedor = u.id                
+                WHERE O.id = ?";
+      $sql = $this->pdo->prepare($query); 
+      $sql->execute([ $id ]);
+
+      return $sql->fetchAll();
     } catch (PDOException $e) {
       return $e->getMessage();
     }

@@ -10,7 +10,7 @@ use Src\Classes\Orcamento;
 use Src\Classes\Produto;
 use Src\Classes\OrdemDeOrcamento as Ordem;
 
-class OrcamentoController extends BaseController
+class PropostaController extends BaseController
 {
   protected $produtos;
   protected $orcamento;
@@ -19,7 +19,13 @@ class OrcamentoController extends BaseController
   protected $title;
   protected $orcamentoAberto;
   
-  public function cadastrar($request) {
+  public function cadastrar($orcamentoId, $request) {
+    if (isset($request->post->cadastrar)) {
+      print_r($request->post);
+      $orcamentoModel = Container::getModel('PropostaOrcamento');
+    }
+    return;
+
     if (isset($request->post->nome)) {
       $this->orcamento = new Orcamento();
       $this->orcamento->setNome($request->post->nome);
@@ -50,38 +56,5 @@ class OrcamentoController extends BaseController
       $this->setPageTitle('Orçamento');
       $this->renderView('orcamento/cadastrar', 'layout');
     }    
-  }
-  
-  public function listar() {
-    $orcamentoModel = Container::getModel('Orcamento');
-    $this->listaOrcamentos = $orcamentoModel->getOrcamentos($this->orcamento);
-    $this->setPageTitle('Orçamento');
-    $this->renderView('orcamento/listar', 'layout');
-  }
-
-  public function index() {
-    $this->setPageTitle('Gerenciar Orçamento');
-    $this->renderView('orcamento/index', 'layout');
-  }
-
-  public function detalhar($orcamentoId, $request) {
-    $orcamentoModel = Container::getModel('Orcamento');
-    $this->orcamento = new Orcamento();
-    $this->orcamento->setId($orcamentoId);
-
-    if (Session::get('usuario')->nivel_acesso >= 5) {      
-      $this->orcamentoDetalhado = $orcamentoModel->getFullOrcamentoById($orcamentoId);
-      $this->setPageTitle('Aprovar Orçamentos');
-      $this->renderView('orcamento/detalharAdm', 'layout');
-    } else {
-      $this->orcamentoDetalhado = $orcamentoModel->getOrcamentoById($orcamentoId);
-
-      if (count($this->orcamentoDetalhado) > 0) {  
-        $this->title = $this->orcamentoDetalhado[0]->nomeOrc;
-        $this->orcamentoAberto = $this->orcamentoDetalhado[0]->abertoOrc;
-        $this->setPageTitle($this->orcamentoDetalhado[0]->nomeOrc);
-        $this->renderView('orcamento/detalharFornecedora', 'layout');
-      }
-    }
   }
 }

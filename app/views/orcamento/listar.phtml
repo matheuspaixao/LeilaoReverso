@@ -10,7 +10,8 @@
     </div>
     <div class="col-md-1">
       <a data-toggle='tooltip'title='Voltar' class="btn btn-danger btn-center" href="/orcamento">
-         <span class="fa fa-undo"></span>
+        Voltar
+        <span class="fa fa-undo"></span>
       </a>
     </div>
   </div>
@@ -26,29 +27,21 @@
         <th scope="col">Qtd. Prod.</th>
         <th scope="col"></th>
         <th scope="col"></th>
-        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <?php 
-        $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' href=''
-                          <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
-                            <span class='fa fa-info'></span>
-                          </button>
-                        </a>";
-        $btnAlterar = "<a data-toggle='tooltip' title='Editar' href=''
-                        <button type='submit' name='alterar' class='btn btn-danger btn-block'>
-                          <span class='fa fa-pencil'></span>
-                        </button>
-                      </a>";
-        $btnResponder = "<a data-toggle='tooltip' title='Responder Orçamento' href='/orcamento/aprovar'
-                          <button type='submit' name='responder' class='btn btn-danger btn-block'>
-                            <span class='fa fa-reply'></span>
-                          </button>
-                        </a>";
-    
         foreach ($this->listaOrcamentos as $orcamento) {
           if ($orcamento->ativo) {
+            $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' class='btn btn-danger btn-block'
+                              href='/orcamento/listar/$orcamento->id' name='detalhar' >
+                              <span class='fa fa-external-link'></span>
+                            </a>";
+            $btnAlterar = "<a data-toggle='tooltip' title='Editar' class='btn btn-danger btn-block'
+                            href='' name='alterar' >
+                            <span class='fa fa-pencil'></span>
+                           </a>";   
+
             echo "
             <tr>
               <th scope='row'>$orcamento->id</th>
@@ -58,7 +51,6 @@
               <td>$orcamento->qtdProdutos</td>
               <td width='5%'>$btnDetalhar</td>
               <td width='5%'>$btnAlterar</td>
-              <td width='5%'>$btnResponder</td>
             </tr>";
           }
         } 
@@ -83,11 +75,10 @@
     </thead>
     <tbody>
       <?php 
-      $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' href=''
-                        <button mettod type='submit' name='detalhar' class='btn btn-danger btn-block'>
-                          <span class='fa fa-info'></span>
-                        </button>
-                      </a>";
+        $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' class='btn btn-danger btn-block'
+                          href='' name='detalhar' >
+                          <span class='fa fa-external-link'></span>
+                        </a>";
 
         foreach ($this->listaOrcamentos as $orcamento) {
           if (!$orcamento->ativo) {
@@ -105,5 +96,5 @@
       ?>
     </tbody>
   </table>
-          </div>
+  </div>
 </div>

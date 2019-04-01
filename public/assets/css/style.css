@@ -142,4 +142,35 @@ table tbody tr.selected td {
   color: #fff; 
 }
 
+.dtHorizontal {  
+  margin: 0 auto;
+}
+
+.dtHorizontal th, td {
+  white-space: nowrap;
+  min-width: 70px;
+}
+
+.orcamentoAberto {
+  border-radius: 10px; 
+  background-color: #5edb57; 
+  text-align: center; 
+  width: 170px; 
+  font-weight: 600;
+}
+
+.alingMiddle {
+  width: 100%;
+  display: flex;
+  align-items: center
+}
+
+.orcamentoFechado {
+  border-radius: 10px; 
+  background-color: #f4ad42; 
+  text-align: center; 
+  width: 170px; 
+  font-weight: 600;
+}
+
 /*# sourceMappingURL=style.css.map */
