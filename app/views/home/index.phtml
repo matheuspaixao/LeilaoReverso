@@ -49,14 +49,7 @@
                           echo Session::get('usuario')->nivel_acesso;  
                         ?>;
     
-    if (nivel_acesso < 3) {
-      $("#orcamentos").remove();
-      $("#fornecedoras").remove();
-      $("#produtos").remove();
-      $("#relatorios").remove();
-      $("#usuarios").remove();
-    }
-    else if (nivel_acesso < 5) {
+    if (nivel_acesso < 5) {
       $("#fornecedoras").remove();
       $("#produtos").remove();
       $("#relatorios").remove();

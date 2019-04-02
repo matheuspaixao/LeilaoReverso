@@ -75,12 +75,12 @@
     </thead>
     <tbody>
       <?php 
-        $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' class='btn btn-danger btn-block'
-                          href='' name='detalhar' >
+        foreach ($this->listaOrcamentos as $orcamento) {
+          $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' class='btn btn-danger btn-block'
+                          href='/orcamento/listar/$orcamento->id' name='detalhar' >
                           <span class='fa fa-external-link'></span>
                         </a>";
 
-        foreach ($this->listaOrcamentos as $orcamento) {
           if (!$orcamento->ativo) {
             echo "
             <tr>

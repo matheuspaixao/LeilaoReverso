@@ -30,6 +30,11 @@ class LoginController extends BaseController
       Redirect::route('/login', [
         'avisoLogin' => 'Usuário não encontrado!'
       ]);
+    }
+    else if ($usuario->nivel_acesso < 3) {
+      Redirect::route('/login', [
+        'avisoLogin' => 'Sua fornecedora ainda está pendente à aprovar!'
+      ]);      
     }      
     else if ($usuario->senha !== $request->post->senha) {
       Redirect::route('/login', [
@@ -48,7 +53,7 @@ class LoginController extends BaseController
   }
   
   public function cadastrarFornecedora($request) {
-    if (isset($request->post->cadastrar)) {
+    if (isset($request->post->cadastrar)) {      
       $loginModel = Container::getModel('Login');
       $usuario = $request->post;
       $usuario->tipo_usuario = 'Fornecedor Desativado';
@@ -61,7 +66,7 @@ class LoginController extends BaseController
         ]);
       } else {
         Redirect::route('/login', [
-          'avisoLogin' => 'Ocorreu um erro ao cadastrar seu usuário!'
+          'avisoLogin' => $result
         ]);
       }
     }
