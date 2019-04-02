@@ -1,5 +1,17 @@
 <div class="container">
   <div class="form-border col-12 col-sm-12 border">
+  <script>
+        $(document).ready(function() {
+            $("#telefone").mask("(00) 0000-00009")
+            
+            $("#telefone").blur(function(event) {
+                if ($(this).val().length == 15)
+                    $("#telefone").mask("(00) 0 0000-0000")
+                else
+                    $("#telefone").mask("(00) 0000-00009")
+            })
+        })
+    </script>
     <form action="<?php //echo isset($this->produto->id) ? '' : '/produtos/cadastrar'?>" method="post" accept-charset="utf-8" class="form-content border">
       <h2 class="text-left">Cadastrar Usuário</h2>
       <hr>
@@ -11,7 +23,7 @@
         </div>
         <div class="col-md-6">
            <label class="col-form-label"> CPF </label>
-          <input type="text" name="cpf" placeholder="000.000.000-00" required class="form-control" 
+          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="000.000.000-00" required class="form-control" 
           value="">
         </div>
      </div>
@@ -28,8 +40,8 @@
         </div>
         <div class="col-md-4">
           <label class="col-form-label" for="telefone"> Telefone </label>
-          <input type="text" name="telefone" id="telefone" class="form-control" required 
-                               value=""/>
+          <input type="text" name="telefone" id="telefone" class="form-control" required />
+          
         </div>
       </div>
       <div class="form-row">

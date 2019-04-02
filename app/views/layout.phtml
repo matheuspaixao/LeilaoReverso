@@ -18,10 +18,7 @@
     </style>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="/assets/js/popper.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/bootstrap-toggle.min.js"></script>
+    
 
     <title><?php $this->getPageTitle('-') ?> More Mais</title>
   </head>
@@ -31,7 +28,12 @@
     <?php $this->content() ?>
 
     <?php //require_once __DIR__ . "/rodape.phtml" ?>    
-
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bootstrap-toggle.min.js"></script>
+    <script src="/assets/js/jquery.mask.mim.js"></script>
+    <script src="/assets/js/jquery.js"></script>
     <script>
         $(function() {
 
@@ -68,6 +70,17 @@
                 });
 
         });
+
+        $(document).ready(function() {
+            $("#telefone").mask("(00) 0000-00009")
+            
+            $("#telefone").blur(function(event) {
+                if ($(this).val().length == 15)
+                    $("#telefone").mask("(00) 0 0000-0000")
+                else
+                    $("#telefone").mask("(00) 0000-00009")
+            })
+        })
 
     </script>
 
