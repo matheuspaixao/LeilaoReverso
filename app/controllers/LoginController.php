@@ -7,7 +7,7 @@ use Core\Container;
 use Core\Redirect;
 use Core\Session;
 
-class LoginController extends BaseController 
+class LoginController extends BaseController
 {
   protected $aviso = null;
   protected $usuarios;
@@ -34,33 +34,33 @@ class LoginController extends BaseController
     else if ($usuario->nivel_acesso < 3) {
       Redirect::route('/login', [
         'avisoLogin' => 'Sua fornecedora ainda está pendente à aprovar!'
-      ]);      
-    }      
+      ]);
+    }
     else if ($usuario->senha !== $request->post->senha) {
       Redirect::route('/login', [
         'avisoLogin' => 'Senha incorreta!'
-      ]);      
+      ]);
     }
     else {
       Session::set('usuario', $usuario);
       Redirect::route('/');
     }
-  }  
-    
+  }
+
   public function esqueciSenha() {
     $this->setPageTitle('Login');
     $this->renderView('login/esqueci-senha', 'layout');
   }
-  
+
   public function cadastrarFornecedora($request) {
-    if (isset($request->post->cadastrar)) {      
+    if (isset($request->post->cadastrar)) {
       $loginModel = Container::getModel('Login');
       $usuario = $request->post;
       $usuario->tipo_usuario = 'Fornecedor Desativado';
       $loginModel = Container::getModel('Login');
       $result = $loginModel->insertFornecedora($usuario);
-      
-      if (is_numeric($result)) {        
+
+      if (is_numeric($result)) {
         Redirect::route('/login', [
           'avisoLogin' => 'Usuário cadastrado com sucesso!'
         ]);
@@ -75,7 +75,7 @@ class LoginController extends BaseController
       $this->usuarios = $loginModel->getUsersLogin();
       $this->setPageTitle('Fornecedora');
       $this->renderView('login/cadastrar', 'layout');
-    }    
+    }
   }
 
   public function verificarUsuario($login) {

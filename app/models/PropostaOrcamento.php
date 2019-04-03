@@ -16,9 +16,9 @@ class PropostaOrcamento extends BaseModel
       $this->pdo->beginTransaction();
 
       // inserir primeiro a proposta
-      $queryOrc = "INSERT INTO propostaDeOrcamento(id_orcamento, id_fornecedor, aberto) VALUES(?, ?, ?)";
+      $queryOrc = "INSERT INTO propostadeorcamento(id_orcamento, id_fornecedor, aberto) VALUES(?, ?, ?)";
       $sqlOrc = $this->pdo->prepare($queryOrc);
-      $sqlOrc->execute(array( 
+      $sqlOrc->execute(array(
         $orcamento->getIdOrcamento(),
         $orcamento->getIdFornecedor(),
         $orcamento->getAberto()
@@ -35,10 +35,10 @@ class PropostaOrcamento extends BaseModel
           $ordem->getIdOrdOrc(),
           $ordem->getValor()
         ));
-      }      
-      
+      }
+
       $this->pdo->commit();
-      
+
       return $id_pro_orc;
     } catch (PDOException $e) {
       return $e->getMessage();
