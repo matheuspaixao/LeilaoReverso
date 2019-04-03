@@ -21,7 +21,7 @@ class Login extends BaseModel
       $sql->bindValue(':login', $login);
       $sql->execute();
 
-      return $sql->fetchAll()[0];
+      return $sql->fetch();
     } catch (PDOException $e) {
       return $e->getMessage();
     }

@@ -1,6 +1,8 @@
 @import 'bootstrap.css';
 @import 'font-awesome.min.css';
 @import 'bootstrap-toggle.min.css';
+@import 'checkbox-radios.css';
+@import 'select2.min.css';
 
 body {
   padding: 0px;

@@ -81,6 +81,6 @@ class LoginController extends BaseController
   public function verificarUsuario($login) {
     $loginModel = Container::getModel('Login');
     $usuario = $loginModel->getUserByLogin($login);
-    echo sizeof($usuario) > 0 ? 1 : 0;
+    echo !empty($usuario) > 0 ? 1 : 0;
   }
 }

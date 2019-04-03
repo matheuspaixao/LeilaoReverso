@@ -126,14 +126,14 @@
   $(document).ready(function() {
     $("#login").keyup(function() {
       var uname = $("#login").val().trim();
-
+      
       if(uname != '') {
         $("#uname_response").show();
         
         $.ajax({
           url: '/login/verificarUsuario/' + uname,
           type: 'post',
-          success: function(response) {
+          success: function(response) { 
             if(response == 1) {
               $("#uname_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Este usuário ja existe </span>");
             } else {
