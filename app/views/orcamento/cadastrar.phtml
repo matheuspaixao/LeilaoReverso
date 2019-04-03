@@ -51,6 +51,14 @@
           ?>
         </div>
 
+        <div class="col-md-7">
+          <label class="col-form-label">Fornecedoras autorizadas</label>
+          <select class="js-example-basic-multiple form-control" name="fornecedoras[]" multiple="multiple">
+            <option value="AL">Alabama</option>
+            <option value="WY">Wyoming</option>
+          </select>
+        </div>
+
         <div class="table-responsive"> 
           <table id="dynamic_field">
            <tr>
@@ -160,5 +168,7 @@
       $('#und-'+indx).val(value.split('-')[1]);
       //removeOption(idProd);
     });
+
+    $('.js-example-basic-multiple').select2();
   });  
 </script>

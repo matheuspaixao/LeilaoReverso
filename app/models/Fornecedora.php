@@ -43,6 +43,19 @@ class Fornecedora extends BaseModel {
     }
   }
 
+  public function deletarFornecedora($id) {
+    try {
+      $query = "DELETE FROM usuario WHERE id = :id" ;
+      $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id', $id);
+      $sql->execute();
+
+      return 1;
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
   private function getTipoUsuario($tipo_usuario) {
     try {
       $query = "SELECT * FROM tipousuario WHERE nome = ?";

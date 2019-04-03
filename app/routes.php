@@ -31,6 +31,7 @@ $route = [
 
   ['/fornecedora/listar', 'FornecedoraController@listar', 5],
   ['/fornecedora/{fornecedoraId}/aprovar', 'FornecedoraController@aprovar', 5],
+  ['/fornecedora/{fornecedoraId}/recusar', 'FornecedoraController@recusar', 5],
 
   ['/sair', 'Sair@logout', 3],
 ];

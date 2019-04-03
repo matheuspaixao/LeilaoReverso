@@ -32,5 +32,19 @@ class FornecedoraController extends BaseController {
       Redirect::route('/fornecedora/listar');
     }    
   }
+
+  public function recusar($fornecedoraId) {
+    if (is_numeric($fornecedoraId)) {
+      $fornecedoraModel = Container::getModel('Fornecedora');
+      $result = $fornecedoraModel->deletarFornecedora($fornecedoraId);
+
+      if (is_numeric($result))
+        Redirect::route('/fornecedora/listar');
+      else
+        print_r($result);
+    } else {
+      Redirect::route('/fornecedora/listar');
+    }    
+  }
 }
 ?>
