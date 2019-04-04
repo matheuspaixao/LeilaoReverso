@@ -15,17 +15,14 @@ class ProdutoController extends BaseController
   protected $undMedidas;
   protected $titleHeader;
     
-  public function listar() {
-    $produtoModel = Container::getModel('Produto');
-    
-    if (Session::get('buscarProdutos')) {
-      $buscarProdutos = Session::get('buscarProdutos');
-      Session::destroy('buscarProdutos');
-      $this->listaProdutos = $produtoModel->getProducts($buscarProdutos);
+  public function listar() {    
+    if (Session::get('avisoLogin')) {
+      $this->aviso = Session::get('avisoLogin');
+      Session::destroy('avisoLogin');
     }
-    else {
-      $this->listaProdutos = $produtoModel->getProducts();
-    }    
+
+    $produtoModel = Container::getModel('Produto');
+    $this->listaProdutos = $produtoModel->getProducts();    
     
     $this->setPageTitle('Produtos');
     $this->renderView('produto/listar', 'layout');

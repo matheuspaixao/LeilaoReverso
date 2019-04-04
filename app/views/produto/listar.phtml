@@ -28,14 +28,12 @@
 
           foreach ($this->listaProdutos as $produto) {
             $btnAlterar = "<a data-toggle='tooltip' title='Editar' href='/produtos/$produto->id/atualizar'
-                            <button mettod type='submit' name='alterar' class='btn btn-danger btn-block'>
+                              name='alterar' class='btn btn-danger btn-block'>
                               <span class='fa fa-pencil'></span>
-                            </button>
                            </a>";
             $btnExcluir = "<a data-toggle='tooltip' title='Excluir' href='/produtos/$produto->id/excluir'
-                            <button type='submit' name='excluir' class='btn btn-danger btn-block'>
+                              name='excluir' class='btn btn-danger btn-block'>
                               <span class='fa fa-trash'></span>
-                            </button>
                            </a>";
             $i++;
 
