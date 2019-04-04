@@ -23,8 +23,8 @@ class LoginController extends BaseController
   }
 
   public function autenticar($request) {
-    $loginModel = Container::getModel('Login');
-    $usuario = $loginModel->getUserByLogin($request->post->login);
+    $usuarioModel = Container::getModel('Usuario');
+    $usuario = $usuarioModel->getUserByLogin($request->post->login);
 
     if (count($usuario) == 0) {
       Redirect::route('/login', [
@@ -54,11 +54,10 @@ class LoginController extends BaseController
 
   public function cadastrarFornecedora($request) {
     if (isset($request->post->cadastrar)) {
-      $loginModel = Container::getModel('Login');
+      $usuarioModel = Container::getModel('Usuario');
       $usuario = $request->post;
       $usuario->tipo_usuario = 'Fornecedor Desativado';
-      $loginModel = Container::getModel('Login');
-      $result = $loginModel->insertFornecedora($usuario);
+      $result = $usuarioModel->insertFornecedora($usuario);
 
       if (is_numeric($result)) {
         Redirect::route('/login', [
@@ -71,16 +70,16 @@ class LoginController extends BaseController
       }
     }
     else {
-      $loginModel = Container::getModel('Login');
-      $this->usuarios = $loginModel->getUsersLogin();
+      $usuarioModel = Container::getModel('Usuario');
+      $this->usuarios = $usuarioModel->getUsersLogin();
       $this->setPageTitle('Fornecedora');
       $this->renderView('login/cadastrar', 'layout');
     }
   }
 
   public function verificarUsuario($login) {
-    $loginModel = Container::getModel('Login');
-    $usuario = $loginModel->getUserByLogin($login);
+    $usuarioModel = Container::getModel('Usuario');
+    $usuario = $usuarioModel->getUserByLogin($login);
     echo !empty($usuario) > 0 ? 1 : 0;
   }
 }

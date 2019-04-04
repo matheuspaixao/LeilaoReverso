@@ -10,13 +10,19 @@ use Core\Session;
 
 class FornecedoraController extends BaseController {
     
+  protected $aviso = null;
   protected $fornecedoras;
 
   public function listar() {
+    if (Session::get('aviso')) {
+      $this->aviso = Session::get('aviso');
+      Session::destroy('aviso');
+    }
+
     $fornecedoraModel = Container::getModel('Fornecedora');
     $this->fornecedoras = $fornecedoraModel->getFornecedoras();
     $this->setPageTitle('Fornecedora');
-    $this->renderView('fornecedora/listar_atualizar', 'layout');
+    $this->renderView('fornecedora/listar', 'layout');
   }
 
   public function aprovar($fornecedoraId) {

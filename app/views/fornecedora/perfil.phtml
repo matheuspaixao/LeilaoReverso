@@ -1,24 +1,11 @@
 <?php use Core\Session; ?>
 
 <div class="container">
-  <?php
-    if (isset($this->aviso)) {
-      echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>'. $this->aviso .'
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>';
-    
-      unset($this->aviso);
-    }    
-  ?>
-
   <div class="form-border col-12 col-sm-12 border">
     <form action="meuperfil/atualizar" method="post" accept-charset="utf-8" class="form-content border">
       <div class="row">
         <div class="col-11">
-          <h2 class="text-left">Meu Perfil</h2>
+          <h2 class="text-left"><?php echo $this->title ?></h2>
         </div>
         <div class="col-1">
           <img src="/assets/img/adm.png" height="50">
@@ -30,12 +17,12 @@
         <div class="col-md-4">
           <label class="col-form-label"> Usuário </label>  
           <input type="text" id="login" name="login" placeholder="Usuário de login" autofocus required class="form-control" 
-            value="<?php echo Session::get('usuario')->login ?>" readonly>
+            value="<?php echo $this->fornecedora->login ?>" readonly>
         </div>
         <div class="col-md-8">
           <label class="col-form-label"> Nome </label>  
           <input type="text" name="nome" placeholder="" autofocus required class="form-control" 
-            value="<?php echo Session::get('usuario')->nome ?>">
+            value="<?php echo $this->fornecedora->nome ?>" readonly>
         </div>
       </div>
       
@@ -43,29 +30,29 @@
         <div class="col-md-3">
           <label class="col-form-label">CNPJ/CPF</label>
           <input type="text" id="num_documento" name="num_documento" placeholder="CNPJ/CPF" required class="form-control" 
-            value="<?php echo Session::get('usuario')->num_documento ?>">
+            value="<?php echo $this->fornecedora->num_documento ?>" readonly>
         </div>
         <div class="col-md-1 mt-auto">
           <div class="custom-control custom-radio">
             <input type="radio" id="cnpj" name="tipo_documento" class="custom-control-input" value="CNPJ"
-              <?php echo strtoupper(Session::get('usuario')->tipo_documento) == "CNPJ" ? "checked" : ""; ?> >
+              <?php echo strtoupper($this->fornecedora->tipo_documento) == "CNPJ" ? "checked" : ""; ?> disabled>
             <label class="custom-control-label" for="cnpj">CNPJ</label>
           </div>
           <div class="custom-control custom-radio">
             <input type="radio" id="cpf" name="tipo_documento" class="custom-control-input" value="CPF"
-            <?php echo strtoupper(Session::get('usuario')->tipo_documento) == "CPF" ? "checked" : ""; ?> >
+            <?php echo strtoupper($this->fornecedora->tipo_documento) == "CPF" ? "checked" : ""; ?> disabled>
             <label class="custom-control-label" for="cpf">CPF</label>
           </div>
         </div>
         <div class="col-md-3">
           <label class="col-form-label" for="telefone"> Telefone </label>
           <input type="text" name="telefone" id="telefone" class="form-control" required placeholder="(00) 90000-000"
-            value="<?php echo Session::get('usuario')->telefone ?>"/>
+            value="<?php echo $this->fornecedora->telefone ?>" readonly >
         </div>
         <div class="col-md-5">
           <label class="col-form-label" for="email"> E-mail </label>
           <input type="email" name="email" id="email" class="form-control" required placeholder="meuemail@email.com"
-            value="<?php echo Session::get('usuario')->email ?>"/>
+            value="<?php echo $this->fornecedora->email ?>" readonly >
         </div>  
       </div>
         
@@ -73,12 +60,12 @@
         <div class="col-md-11">
           <label class="col-form-label"> Endereço </label>
           <input type="text" name="endereco" id="endereco" class="form-control input-lg" onkeyup="UpperCase(this)"
-            required placeholder="Rua ..." value="<?php echo Session::get('usuario')->endereco ?>" />
+            required placeholder="Rua ..." value="<?php echo $this->fornecedora->endereco ?>" readonly>
         </div>
         <div class="col-md-1">
           <label class="col-form-label"> Nº </label>
           <input type="text" name="numero" id="numero" class="form-control input-lg" onkeyup="UpperCase(this)"
-            required placeholder="000" value="<?php echo Session::get('usuario')->numero ?>" />
+            required placeholder="000" value="<?php echo $this->fornecedora->numero ?>" readonly>
         </div>
       </div> 
 
@@ -86,16 +73,16 @@
         <div class="col-md-5">
           <label class="col-form-label"> CEP </label>
           <input type="text" name="cep" id="cep" class="form-control input-lg"
-            value="<?php echo Session::get('usuario')->cep ?>" />
+            value="<?php echo $this->fornecedora->cep ?>" readonly>
         </div>
         <div class="col-md-5">
           <label class="col-form-label"> Cidade </label>
           <input type="text" name="cidade" id="cidade" class="form-control input-lg" onkeyup="UpperCase(this)"
-            required placeholder="Sua cidade..." value="<?php echo Session::get('usuario')->cidade ?>" />
+            required placeholder="Sua cidade..." value="<?php echo $this->fornecedora->cidade ?>" readonly>
         </div>
         <div class="col-md-2">
           <label class="col-form-label"> UF </label>
-          <select id="UF" name="UF" id="UF" class="form-control" required>
+          <select id="UF" name="UF" id="UF" class="form-control" required readonly>
             <option value="" selected hidden>Selecione...</option>
             <option value="AC">AC</option>
             <option value="AL">AL</option>
@@ -126,21 +113,6 @@
             <option value="TO">TO</option>
           </select>
         </div>     
-      </div>  
-
-      <div class="form-row">
-        <div class="col-md-1 mr-4">
-          <button type="submit" name="atualizar" class="btn btn-danger mt-3">
-            Atualizar
-            <span class="fa fa-save"></span>
-          </button>
-        </div>
-        <div class="col-md-1">
-          <a href="/" name="voltar" class="btn btn-danger mt-3">
-            Voltar
-            <span class="fa fa-undo"></span>
-          </a>
-        </div> 
       </div>
   </form>
 </div>
@@ -155,14 +127,14 @@
       $('#num_documento').mask('00.000.000/0000-00', {reverse: true});
     })
 
-    var tipo_documento = "<?php echo strtoupper(Session::get('usuario')->tipo_documento) ?>"
+    var tipo_documento = "<?php echo strtoupper($this->fornecedora->tipo_documento) ?>"
     
     if (tipo_documento == "CPF")
       $('#num_documento').mask('000.000.000-00', {reverse: true});
     else if (tipo_documento == "CNPJ")
       $('#num_documento').mask('00.000.000/0000-00', {reverse: true});
 
-    var UF = "<?php echo strtoupper(Session::get('usuario')->UF) ?>"
+    var UF = "<?php echo strtoupper($this->fornecedora->UF) ?>"
     $('#UF').val(UF);
   });
 </script>

@@ -1,4 +1,17 @@
 <div class="container">
+  <?php
+    if (isset($this->aviso)) {
+      echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>'. $this->aviso .'
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>';
+    
+      unset($this->aviso);
+    }    
+  ?>
+
   <div class="row header-pager">
     <div class="col-6">
       <h1>Fornecedoras</h1>
@@ -18,7 +31,7 @@
       <tbody>
         <?php 
           foreach($this->fornecedoras as $fornecedora) {
-            $btnDados = "<a data-toggle='tooltip' title='Visualizar dados' href=''
+            $btnDados = "<a data-toggle='tooltip' title='Visualizar dados' href='/perfilFornecedora/$fornecedora->id'
                           <button mettod type='submit' name='dados' class='btn btn-danger btn-block'>
                             <span class='fa fa-database'></span>
                           </button>
@@ -67,7 +80,7 @@
                                 <span class='fa fa-close'></span>
                               </button>
                             </a>";
-              $btnDados = "<a data-toggle='tooltip' title='Visualizar dados' href=''
+              $btnDados = "<a data-toggle='tooltip' title='Visualizar dados' href='/perfilFornecedora/$fornecedora->id'
                             <button mettod type='submit' name='alterar' class='btn btn-danger btn-block'>
                               <span class='fa fa-database'></span>
                             </button>

@@ -30,17 +30,17 @@
         </div>
         <div class="col-md-3">
           <label class="col-form-label"> CNPJ/CPF </label>
-          <input type="text" name="num_documento" placeholder="CNPJ/CPF" required class="form-control" 
+          <input type="text" id="num_documento" name="num_documento" placeholder="CNPJ/CPF" required class="form-control" 
             value="">
         </div>
-        <div style="padding-top: 30px;">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="tipo_documento" value="CNPJ" checked>
-            <label class="form-check-label"> CPNJ </label>
+        <div class="col-md-1 mt-auto">
+          <div class="custom-control custom-radio">
+            <input type="radio" id="cnpj" name="tipo_documento" class="custom-control-input" value="CNPJ" checked >
+            <label class="custom-control-label" for="cnpj">CNPJ</label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="tipo_documento" value="CPF">
-            <label class="form-check-label"> CPF </label>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="cpf" name="tipo_documento" class="custom-control-input" value="CPF" >
+            <label class="custom-control-label" for="cpf">CPF</label>
           </div>
         </div>
      </div>
@@ -113,83 +113,72 @@
     </div>
 
     <div class="form-row">
-      <div class="col-md-12 ">
-        <button data-toggle="tooltip" title="Salvar" type="submit" name="cadastrar" class="btn btn-danger mt-3">
+      <div class="col-md-1 mr-4">
+        <button type="submit" name="cadastrar" class="btn btn-danger mt-3">
           Cadastrar
           <span class="fa fa-save"></span>
         </button>
       </div>
+      <div class="col-md-1 ml-2">
+        <a href="/" name="voltar" class="btn btn-danger mt-3">
+          Voltar
+          <span class="fa fa-undo"></span>
+        </a>
+      </div> 
     </div>
   </form>
 </div>
 <script>
-  $(document).ready(function() {
-    $("#login").keyup(function() {
-      var uname = $("#login").val().trim();
+$(document).ready(function() {
+  $('#telefone').mask('(00) 90000-0000');
+  $('#cep').mask('00000-000');
+  $('#num_documento').mask('00.000.000/0000-00', {reverse: true});
+  $('#cpf').change(function() {
+    $('#num_documento').mask('000.000.000-00', {reverse: true});
+  })
+  $('#cnpj').change(function() {
+    $('#num_documento').mask('00.000.000/0000-00', {reverse: true});
+  })
+
+  $("#login").keyup(function() {
+    var uname = $("#login").val().trim();
+    
+    if(uname != '') {
+      $("#uname_response").show();
       
-      if(uname != '') {
-        $("#uname_response").show();
-        
-        $.ajax({
-          url: '/login/verificarUsuario/' + uname,
-          type: 'post',
-          success: function(response) { 
-            if(response == 1) {
-              $("#uname_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Este usuário ja existe </span>");
-            } else {
-              $("#uname_response").html("");
-            }
+      $.ajax({
+        url: '/login/verificarUsuario/' + uname,
+        type: 'post',
+        success: function(response) { 
+          if(response == 1) {
+            $("#uname_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Este usuário ja existe </span>");
+          } else {
+            $("#uname_response").html("");
           }
-        });
-      } else {
-        $("#uname_response").html("");
-        $("#uname_response").hide();
-      }
-    });
-
-    $("#repsenha").keyup(function() {
-      var senha = $("#senha").val();
-      var repsenha = $("#repsenha").val();
-
-      if(repsenha != '') {
-        if(senha != repsenha ) {
-          $("#repsenha_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Senhas diferentes </span>");
-        } else {
-          $("#repsenha_response").html("");
         }
-
-        $("#repsenha_response").show();
-      } else {        
-        $("#repsenha_response").hide();
-        $("#repsenha_response").html("");
-      }
-    });
-
-    // $("#telefone").mask("(00) 0000-00009")
-        
-    // $("#telefone").blur(function(event) {
-    //   if ($(this).val().length == 15)
-    //     $("#telefone").mask("(00) 0 0000-0000")
-    //   else
-    //     $("#telefone").mask("(00) 0000-00009")
-    // })
+      });
+    } else {
+      $("#uname_response").html("");
+      $("#uname_response").hide();
+    }
   });
 
-  //CheckBox 
-  // $("#checkTodos__").change(function () {
-  //   $("input:checkbox").prop('checked', $(this).prop("checked"));
-  // });
+  $("#repsenha").keyup(function() {
+    var senha = $("#senha").val();
+    var repsenha = $("#repsenha").val();
 
-  // $("#checkTodos__").click(function(){
-  //     $('input:checkbox').not(this).prop('checked', this.checked);
-  // });
+    if(repsenha != '') {
+      if(senha != repsenha ) {
+        $("#repsenha_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Senhas diferentes </span>");
+      } else {
+        $("#repsenha_response").html("");
+      }
 
-  // var checkTodos = $("#checkTodos");
-  // checkTodos.click(function () {
-  //     if ( $(this).is(':checked') ){
-  //         $('input:checkbox').prop("checked", true);
-  //     } else{
-  //         $('input:checkbox').prop("checked", false);
-  //     }
-  // });
+      $("#repsenha_response").show();
+    } else {        
+      $("#repsenha_response").hide();
+      $("#repsenha_response").html("");
+    }
+  });
+});
 </script>
