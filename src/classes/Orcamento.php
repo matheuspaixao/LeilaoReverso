@@ -12,6 +12,7 @@ class Orcamento
   public $vigencia_inicio;
   public $vigencia_fim;
   public $ordens;
+  public $fornecedoras;
   public $id_usr_cad;
   public $id_usr_alter;
   public $criado_em;
@@ -19,6 +20,7 @@ class Orcamento
 
   public function __construct() {
     $this->ordens = new ArrayObject();
+    $this->fornecedoras = Array();
   }
 
   public function addOrdem(OrdemDeOrcamento $ordem) {
@@ -31,6 +33,10 @@ class Orcamento
 
   public function findOrdem(OrdemDeOrcamento $ordem) {
     $this->ordens->offsetExists($ordem->getId());
+  }
+
+  public function addFornecedora($fornecedoraId) {
+    $this->fornecedoras[] = $fornecedoraId;
   }
 
   public function getId() {
@@ -75,6 +81,10 @@ class Orcamento
 
   public function getOrdens() {
     return $this->ordens;
+  }
+
+  public function getFornecedoras() {
+    return $this->fornecedoras;
   }
 
   public function getIdUsrCad() {

@@ -120,6 +120,22 @@ class Orcamento extends BaseModel
     }
   }
 
+  public function getFornecedoras() {
+    try {
+      $query = "SELECT u.id, u.nome 
+                FROM usuario u
+                INNER JOIN tipousuario t
+                  ON u.id_tipo_usuario = t.id
+                WHERE t.nivel_acesso = 3";
+      $sql = $this->pdo->prepare($query);
+      $sql->execute();
+      
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
   public function insert(ObjOrcamento $orcamento) {
     try {
       $this->pdo->beginTransaction();
@@ -147,6 +163,14 @@ class Orcamento extends BaseModel
           $idOrcamento,
           $ordem->getProduto()->getId()
         ));
+      }
+
+      $queryFornecedora = "INSERT INTO fornecedoresorcamento(id_orcamento, id_fornecedor)
+                           VALUES(?, ?)";
+      $sqlFornecedora = $this->pdo->prepare($queryFornecedora);
+
+      foreach ($orcamento->getFornecedoras() as $fornecedora) {
+        $sqlFornecedora->execute([ $idOrcamento, $fornecedora ]);
       }
 
       $this->pdo->commit();

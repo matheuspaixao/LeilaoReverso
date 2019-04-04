@@ -53,9 +53,11 @@
 
         <div class="col-md-7">
           <label class="col-form-label">Fornecedoras autorizadas</label>
-          <select class="js-example-basic-multiple form-control" name="fornecedoras[]" multiple="multiple">
-            <option value="AL">Alabama</option>
-            <option value="WY">Wyoming</option>
+          <select class="js-example-basic-multiple form-control" name="fornecedoras[]" multiple="multiple" required>
+            <?php
+              foreach($this->fornecedoras as $fornecedora)
+                echo "<option value='$fornecedora->id'>$fornecedora->nome</option>"
+            ?>
           </select>
         </div>
 
@@ -93,11 +95,11 @@
         </div>
       
         <div class="col-md-4">
-          <button data-toggle="tooltip" title="Salvar" type="submit" name="cadastrar" class="btn btn-danger mt-3">
-            Salvar
+          <button data-toggle="tooltip" title="cadastrar" type="submit" name="cadastrar" class="btn btn-danger mt-3">
+            Cadastrar
             <span class="fa fa-save"></span>
           </button>
-          <a data-toggle="tooltip" title="Cancelar" href="/orcamento" class="btn btn-danger mt-3 ">
+          <a data-toggle="tooltip" title="cancelar" href="/orcamento" class="btn btn-danger mt-3 ">
             Cancelar
             <span class="fa fa-times"></span>
           </a>
