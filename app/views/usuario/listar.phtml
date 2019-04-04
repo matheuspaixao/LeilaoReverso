@@ -4,8 +4,8 @@
       <h1>Usuários</h1>
     </div>
     <div class="col-1">
-      <a data-toggle='tooltip' title='Cadastrar' href='/usuario/cadastrar' class='btn btn-danger mt-3'>
-          <span class="fa fa-plus"></span>
+      <a data-toggle='tooltip' title='Cadastrar novo usuário' href='/usuario/cadastrar' class='btn btn-danger mt-3'>
+        <span class="fa fa-plus"></span>
       </a>
     </div>
   </div>
@@ -15,31 +15,27 @@
     <thead class="bg-danger">
       <tr>
         <th scope="col">Nome</th>
-        <th scope="col">Função</th>
+        <th scope="col">Usuário</th>
+        <th scope="col">Ultimo acesso</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
          <?php 
-          $i = 0;
-
-          //foreach ($this->listaProdutos as $produto) {
-            $btnAlterar = "<a data-toggle='tooltip' title='Editar' href=''
-                            <button type='submit' name='alterar' class='btn btn-danger btn-block'>
-                              <span class='fa fa-pencil'></span>
-                            </button>
-                           </a>";
-
-        
-            $i++;
-
+          foreach ($this->usuarios as $usuario) {
+            $btnDados = "<a data-toggle='tooltip' title='Visualizar dados' href='/perfil/$usuario->id'
+                          <button mettod type='submit' name='dados' class='btn btn-danger btn-block'>
+                            <span class='fa fa-database'></span>
+                          </button>
+                        </a>";
             echo "
             <tr>
-              <td>Matheus Oliveira Paixão </td>
-              <td>Tesoureiro</td>
-              <td width='5%'>$btnAlterar</td>
+              <td>$usuario->nome</td>
+              <td>$usuario->login</td>
+              <td>$usuario->ultimo_acesso</td>
+              <td width='5%'>$btnDados</td>
             </tr>";
-         // }
+          }
         ?>
     </tbody>
   </table>

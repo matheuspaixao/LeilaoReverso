@@ -27,7 +27,7 @@ $route = [
 
   ['/meuperfil', 'UsuarioController@meuPerfil', 3],
   ['/meuperfil/atualizar', 'UsuarioController@atualizar', 3],
-  ['/perfilFornecedora/{fornecedoraId}', 'UsuarioController@perfilFornecedora', 5],
+  ['/perfil/{usuarioId}', 'UsuarioController@perfil', 5],
 
   ['/usuarios', 'UsuarioController@listar', 10],
   ['/usuario/cadastrar', 'UsuarioController@cadastrar', 10],

@@ -11,9 +11,13 @@ class UsuarioController extends BaseController
 {
   protected $title;
   protected $fornecedora;
+  protected $usuarios;
   protected $aviso = null;
 
   public function listar() {
+    $usuarioModel = Container::getModel('Usuario');
+    $this->usuarios = $usuarioModel->getUsers();
+    
     $this->setPageTitle('Usuários');
     $this->renderView('Usuario/listar', 'layout');  
   }
@@ -28,8 +32,29 @@ class UsuarioController extends BaseController
     $this->renderView('Usuario/meu-perfil', 'layout');  
   }
 
+  public function cadastrar($request) {
+    if (isset($request->post->cadastrar)) {
+      $usuarioModel = Container::getModel('Usuario');
+      $usuario = $request->post;
+      $usuario->tipo_usuario = 'Funcionario';
+      $result = $usuarioModel->insert($usuario);
+
+      if (is_numeric($result)) {
+        Redirect::route('/usuarios');
+      } else {
+        Redirect::route('/usuarios', [
+          'aviso' => $result
+        ]);
+      }
+    }
+    else {
+      $this->setPageTitle('Cadastrar Usuário');
+      $this->renderView('Usuario/cadastrar', 'layout');  
+    }
+  }
+
   public function atualizar($request) {
-    if (isset($request->post->atualizar)) { //print_r($request->post); return;
+    if (isset($request->post->atualizar)) { 
       $usuarioModel = Container::getModel('Usuario');
       $result = $usuarioModel->update(Session::get('usuario')->id, $request->post);
 
@@ -46,9 +71,9 @@ class UsuarioController extends BaseController
     }
   }
   
-  public function perfilFornecedora($fornecedoraId) {    
+  public function perfil($usuarioId) {    
     $usuarioModel = Container::getModel('Usuario');
-    $this->fornecedora = $usuarioModel->getUserById($fornecedoraId);
+    $this->fornecedora = $usuarioModel->getUserById($usuarioId);
 
     if (empty($this->fornecedora)) {
       Redirect::route('/fornecedora/listar', [

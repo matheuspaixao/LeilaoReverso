@@ -8,7 +8,22 @@ use PDOException;
 
 class Usuario extends BaseModel
 {
-  // Ja existe um atributo $pdo fazendo conexão com o BD na classe BaseModel, use-o
+  
+  public function getUsers() {
+    try {
+      $query = "SELECT u.*
+                FROM usuario u
+                INNER JOIN tipousuario t
+                  ON u.id_tipo_usuario = t.id
+                WHERE t.nivel_acesso = 5";
+      $sql = $this->pdo->prepare($query);
+      $sql->execute();
+
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
 
   public function getUserByLogin($login) {
     try {
@@ -56,7 +71,7 @@ class Usuario extends BaseModel
     }
   }
 
-  public function insertFornecedora($usuario) {
+  public function insert($usuario) {
     try {
       $tipo_usuario = self::getTipoUsuario($usuario->tipo_usuario);
       $usuario->id_tipo_usuario = $tipo_usuario->id;
@@ -104,6 +119,21 @@ class Usuario extends BaseModel
       $sql->bindValue(':cidade', $usuario->cidade);
       $sql->bindValue(':UF', $usuario->UF);
       $sql->bindValue(':cep', $usuario->cep);
+      $sql->execute();
+
+      return 1;
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function updateLastLogin($id) {
+    try {
+      $query = "UPDATE usuario
+                SET ultimo_acesso = now()
+                WHERE id = :id";
+      $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id', $id);
       $sql->execute();
 
       return 1;

@@ -315,6 +315,7 @@ CREATE TABLE `usuario` (
   `UF` varchar(3) DEFAULT NULL,
   `cep` varchar(10) DEFAULT NULL,
   `criado_em` datetime DEFAULT CURRENT_TIMESTAMP,
+  `ultimo_acesso` datetime NULL,
   PRIMARY KEY (`id`),
   KEY `id_tipo_usuario` (`id_tipo_usuario`),
   CONSTRAINT UK_login unique (`login`),

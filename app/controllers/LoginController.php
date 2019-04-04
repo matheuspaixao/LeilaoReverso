@@ -42,6 +42,7 @@ class LoginController extends BaseController
       ]);
     }
     else {
+      $usuarioModel->updateLastLogin($usuario->id);
       Session::set('usuario', $usuario);
       Redirect::route('/');
     }
@@ -57,7 +58,7 @@ class LoginController extends BaseController
       $usuarioModel = Container::getModel('Usuario');
       $usuario = $request->post;
       $usuario->tipo_usuario = 'Fornecedor Desativado';
-      $result = $usuarioModel->insertFornecedora($usuario);
+      $result = $usuarioModel->insert($usuario);
 
       if (is_numeric($result)) {
         Redirect::route('/login', [

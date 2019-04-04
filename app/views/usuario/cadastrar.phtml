@@ -1,58 +1,171 @@
 <div class="container">
   <div class="form-border col-12 col-sm-12 border">
-  <script>
-        $(document).ready(function() {
-            $("#telefone").mask("(00) 0000-00009")
-            
-            $("#telefone").blur(function(event) {
-                if ($(this).val().length == 15)
-                    $("#telefone").mask("(00) 0 0000-0000")
-                else
-                    $("#telefone").mask("(00) 0000-00009")
-            })
-        })
-    </script>
-    <form action="<?php //echo isset($this->produto->id) ? '' : '/produtos/cadastrar'?>" method="post" accept-charset="utf-8" class="form-content border">
+    <form action="" method="post" accept-charset="utf-8" class="form-content border">
       <h2 class="text-left">Cadastrar Usuário</h2>
       <hr>
       <div class="form-row">
         <div class="col-md-6">
-         <label class="col-form-label"> Nome </label>  
-        <input type="text" name="nome" placeholder="Nome Completo" autofocus required class="form-control" 
+          <label class="col-form-label"> Usuário </label>  
+          <input type="text" id="login" name="login" placeholder="Usuário de login" autofocus required class="form-control" 
           value="">
+          <div id="uname_response" class="response"></div>
         </div>
-        <div class="col-md-6">
-           <label class="col-form-label"> CPF </label>
-          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="000.000.000-00" required class="form-control" 
-          value="">
+        <div class="col-md-3">
+          <label class="col-form-label"> Senha </label>
+          <input type="password" id="senha" name="senha" placeholder="" required class="form-control" 
+            value="">
+        </div>
+        <div class="col-md-3">
+          <label class="col-form-label"> Repita sua senha </label>
+          <input type="password" id="repsenha" name="repsenha" placeholder="" required class="form-control" 
+            value="">
+          <div id="repsenha_response" class="response"></div>
         </div>
      </div>
-    <div class="form-row">
-        <div class="col-md-4">
-           <label class="col-form-label"> Função </label>
-          <input type="text" name="funcao" placeholder="Cargo" required class="form-control" 
+      <div class="form-row">
+        <div class="col-md-6">
+          <label class="col-form-label"> Nome </label>  
+          <input type="text" name="nome" placeholder="Nome completo" autofocus required class="form-control" 
           value="">
         </div>
-        <div class="col-md-4">
-          <label class="col-form-label" for="email"> Email </label>
-          <input type="text" name="Email" id="email" placeholder="@example.com" class="form-control" required 
-                               value=""/>
+        <div class="col-md-3">
+          <label class="col-form-label"> CPF </label>
+          <input type="text" id="num_documento" name="num_documento" placeholder="CPF" required class="form-control" 
+            value="">
         </div>
-        <div class="col-md-4">
-          <label class="col-form-label" for="telefone"> Telefone </label>
-          <input type="text" name="telefone" id="telefone" class="form-control" required />
-          
+        <div class="col-md-1 mt-auto" hidden>
+          <input type="text" name="tipo_documento" value="CPF" required >
         </div>
+     </div>
+    <div class="form-row">      
+      <div class="col-md-3">
+        <label class="col-form-label" for="telefone"> Telefone </label>
+        <input type="text" name="telefone" id="telefone" class="form-control" required placeholder="(00) 90000-000"
+          value=""/>
       </div>
-      <div class="form-row">
+      <div class="col-md-3">
+        <label class="col-form-label" for="email"> E-mail </label>
+        <input type="email" name="email" id="email" class="form-control" required placeholder="meuemail@email.com"
+          value=""/>
+      </div>  
+      <div class="col-md-5">
+        <label class="col-form-label"> Endereço </label>
+        <input type="text" name="endereco" id="endereco" class="form-control input-lg" onkeyup="UpperCase(this)"
+          required placeholder="Rua ..." value="" />
+      </div>
+      <div class="col-md-1">
+        <label class="col-form-label"> Nº </label>
+        <input type="text" name="numero" id="numero" class="form-control input-lg" onkeyup="UpperCase(this)"
+                               required placeholder="000" value="" />
+      </div>
+    </div> 
+    <div class="form-row">
+      <div class="col-md-5">
+        <label class="col-form-label"> CEP </label>
+        <input type="text" name="cep" id="cep" class="form-control input-lg" onkeyup="LowerCase(this)"
+                               required placeholder="00000-000" value="" />
+      </div>
+      <div class="col-md-5">
+        <label class="col-form-label"> Cidade </label>
+        <input type="text" name="cidade" id="cidade" class="form-control input-lg" onkeyup="UpperCase(this)"
+                               required placeholder="Sua cidade..." value="" />
+      </div>
       <div class="col-md-2">
-        <button data-toggle="tooltip" title="Salvar" type="submit" name="cancelar" class="btn btn-danger mt-3">
+        <label class="col-form-label"> UF </label>
+        <select name="UF" id="UF" class="form-control" required>
+          <option value="" selected hidden>Selecione...</option>
+          <option value="AC">AC</option>
+          <option value="AL">AL</option>
+          <option value="AM">AM</option>
+          <option value="AP">AP</option>
+          <option value="BA">BA</option>
+          <option value="CE">CE</option>
+          <option value="DF">DF</option>
+          <option value="ES">ES</option>
+          <option value="GO">GO</option>
+          <option value="MA">MA</option>
+          <option value="MG">MG</option>
+          <option value="MS">MS</option>
+          <option value="MT">MT</option>
+          <option value="PA">PA</option>
+          <option value="PB">PB</option>
+          <option value="PE">PE</option>
+          <option value="PI">PI</option>
+          <option value="PR">PR</option>
+          <option value="RJ">RJ</option>
+          <option value="RN">RN</option>
+          <option value="RO">RO</option>
+          <option value="RR">RR</option>
+          <option value="RS">RS</option>
+          <option value="SC">SC</option>
+          <option value="SE">SE</option>
+          <option value="SP">SP</option>
+          <option value="TO">TO</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-1 mr-4">
+        <button type="submit" name="cadastrar" class="btn btn-danger mt-3">
+          Cadastrar
           <span class="fa fa-save"></span>
         </button>
-        <a data-toggle="tooltip" title="Cancelar" href="/usuario" class="btn btn-danger mt-3 ">
-            <span class="fa fa-times"></span>
-        </a>
       </div>
+      <div class="col-md-1 ml-2">
+        <a href="/usuarios" name="voltar" class="btn btn-danger mt-3">
+          Voltar
+          <span class="fa fa-undo"></span>
+        </a>
+      </div> 
     </div>
   </form>
 </div>
+<script>
+$(document).ready(function() {
+  $('#telefone').mask('(00) 90000-0000');
+  $('#cep').mask('00000-000');
+  $('#num_documento').mask('000.000.000-00', {reverse: true});
+
+  $("#login").keyup(function() {
+    var uname = $("#login").val().trim();
+    
+    if(uname != '') {
+      $("#uname_response").show();
+      
+      $.ajax({
+        url: '/login/verificarUsuario/' + uname,
+        type: 'post',
+        success: function(response) { 
+          if(response == 1) {
+            $("#uname_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Este usuário ja existe </span>");
+          } else {
+            $("#uname_response").html("");
+          }
+        }
+      });
+    } else {
+      $("#uname_response").html("");
+      $("#uname_response").hide();
+    }
+  });
+
+  $("#repsenha").keyup(function() {
+    var senha = $("#senha").val();
+    var repsenha = $("#repsenha").val();
+
+    if(repsenha != '') {
+      if(senha != repsenha ) {
+        $("#repsenha_response").html("<span class='not-exists' style='color: red; font-weight: 600;'>* Senhas diferentes </span>");
+      } else {
+        $("#repsenha_response").html("");
+      }
+
+      $("#repsenha_response").show();
+    } else {        
+      $("#repsenha_response").hide();
+      $("#repsenha_response").html("");
+    }
+  });
+});
+</script>
