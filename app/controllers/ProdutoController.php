@@ -14,11 +14,12 @@ class ProdutoController extends BaseController
   protected $produto;
   protected $undMedidas;
   protected $titleHeader;
+  protected $aviso = null;
     
   public function listar() {    
-    if (Session::get('avisoLogin')) {
-      $this->aviso = Session::get('avisoLogin');
-      Session::destroy('avisoLogin');
+    if (Session::get('aviso')) {
+      $this->aviso = Session::get('aviso');
+      Session::destroy('aviso');
     }
 
     $produtoModel = Container::getModel('Produto');
@@ -63,8 +64,16 @@ class ProdutoController extends BaseController
 
   public function excluir($id) {
     $produtoModel = Container::getModel('Produto');
-    $produtoModel->delete($id);
-    Redirect::route('/produtos');
+    $result = $produtoModel->delete($id);
+
+    if (is_numeric($result)) {
+      Redirect::route('/produtos');
+    } 
+    else {
+      Redirect::route('/produtos', [
+        'aviso' => $result
+      ]);
+    }
   }
 
   private function popularProduto($request, $id_usr) {

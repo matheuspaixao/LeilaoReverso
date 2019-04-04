@@ -1,4 +1,17 @@
 <div class="container">
+  <?php
+    if (isset($this->aviso)) {
+      echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>'. $this->aviso .'
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>';
+    
+      unset($this->aviso);
+    }    
+  ?>
+
   <div class="row header-pager">
     <div class="col-11">
       <h1>Produtos</h1>
@@ -23,9 +36,7 @@
       </tr>
     </thead>
     <tbody>    
-        <?php 
-          $i = 0;
-
+        <?php
           foreach ($this->listaProdutos as $produto) {
             $btnAlterar = "<a data-toggle='tooltip' title='Editar' href='/produtos/$produto->id/atualizar'
                               name='alterar' class='btn btn-danger btn-block'>
@@ -35,11 +46,9 @@
                               name='excluir' class='btn btn-danger btn-block'>
                               <span class='fa fa-trash'></span>
                            </a>";
-            $i++;
-
             echo "
             <tr>
-              <td> <b>$i</b></td>
+              <td> <b>$produto->id</b></td>
               <td>$produto->nome</td>
               <td>$produto->und_medida</td>
               <td width='5%'>$btnAlterar</td>

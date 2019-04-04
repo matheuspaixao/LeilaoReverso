@@ -185,6 +185,7 @@ CREATE TABLE `produto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(30) NOT NULL,
   `descricao` varchar(200) DEFAULT NULL,
+  `ativo` tinyint(1) NULL DEFAULT 1,
   `id_und_medida` int(11) NOT NULL,
   `id_usr_cad` int(11) NOT NULL,
   `id_usr_alter` int(11) DEFAULT NULL,
@@ -206,7 +207,7 @@ CREATE TABLE `produto` (
 
 LOCK TABLES `produto` WRITE;
 /*!40000 ALTER TABLE `produto` DISABLE KEYS */;
-INSERT INTO `produto` VALUES (1,'Cimento','',15,1,NULL,'2019-03-23 21:03:03','2019-03-23 21:03:03'),(4,'Tijolo Argila tipo 1','',14,1,NULL,'2019-03-23 22:40:44','2019-03-23 22:40:44');
+INSERT INTO `produto` VALUES (1,'Cimento','',1,15,1,NULL,'2019-03-23 21:03:03','2019-03-23 21:03:03'),(4,'Tijolo Argila tipo 1','',1,14,1,NULL,'2019-03-23 22:40:44','2019-03-23 22:40:44');
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 UNLOCK TABLES;
 

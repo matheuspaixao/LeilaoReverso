@@ -10,23 +10,14 @@ use Src\Classes\Produto as ObjProduto;
 class Produto extends BaseModel {
   // Ja existe um atributo $pdo fazendo conexão com o BD na classe BaseModel, use-o
 
-  public function getProducts($search = null) {
+  public function getProducts() {
     try {
       $query = "SELECT p.*, und.unidade as und_medida
                 FROM produto p
                 INNER JOIN undmedida und
-                  on p.id_und_medida = und.id";
-
-      if (isset($search))
-        $query .= " WHERE nome like '%:nome%' ORDER BY nome";
-      else
-        $query .= " ORDER BY nome";
-
+                  on p.id_und_medida = und.id
+                WHERE p.ativo = 1";
       $sql = $this->pdo->prepare($query);
-
-      if (isset($search))
-        $sql->bindValue(':nome', $search);
-
       $sql->execute();
 
       return $sql->fetchAll();
@@ -37,12 +28,12 @@ class Produto extends BaseModel {
 
   public function getProductById($id) {
     try {
-      $query = "SELECT * FROM produto WHERE id = :id";
+      $query = "SELECT * FROM produto WHERE id = :id AND ativo = 1";
       $sql = $this->pdo->prepare($query);
       $sql->bindValue(':id', $id);
       $sql->execute();
 
-      return $sql->fetchAll()[0];
+      return $sql->fetch();
     } catch (PDOException $e) {
       return $e->getMessage();
     }
@@ -90,12 +81,25 @@ class Produto extends BaseModel {
 
   public function delete($id) {
     try {
-      $query = "DELETE FROM produto WHERE id = :id" ;
-      $sql = $this->pdo->prepare($query);
-      $sql->bindValue(':id', $id);
-      $sql->execute();
+      // $query = "SELECT count(*) as contador FROM ordensdeorcamento WHERE id_produto = :id" ;
+      // $sql = $this->pdo->prepare($query);
+      // $sql->bindValue(':id', $id);
+      // $sql->execute();
 
-      return true;
+      // if ($sql->fetch()->contador) {
+      //   $query = "UPDATE produto SET ativo = 0 WHERE id = :id" ;
+      //   $sql = $this->pdo->prepare($query);
+      //   $sql->bindValue(':id', $id);
+      //   $sql->execute();
+      // }
+      // else {
+      //   $query = "DELETE FROM produto WHERE id = :id" ;
+      //   $sql = $this->pdo->prepare($query);
+      //   $sql->bindValue(':id', $id);
+      //   $sql->execute();
+      // }      
+
+      return 1;
     } catch (PDOException $e) {
       return $e->getMessage();
     }
