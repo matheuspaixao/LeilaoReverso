@@ -10,7 +10,7 @@ return [
     'collation' => 'utf8_unicode_ci'
   ],
   'application' => [
-    'email' => 'mailer@myapp.com',
+    'email' => 'moremais.sobral@outlook.com',
     'url'   => 'myapp.com'
   ]
 ];
