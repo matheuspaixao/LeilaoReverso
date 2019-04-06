@@ -6,55 +6,56 @@ use Core\BaseController;
 use Core\Container;
 use Core\Session;
 use Core\Redirect;
-use Src\Classes\Orcamento;
-use Src\Classes\Produto;
-use Src\Classes\OrdemDeOrcamento as Ordem;
+use Src\Classes\PropostaOrcamento;
+use Src\Classes\OrdemDeProposta;
 
 class PropostaController extends BaseController
 {
-  protected $produtos;
-  protected $orcamento;
-  protected $orcamentoDetalhado;
-  protected $listaOrcamentos;
-  protected $title;
-  protected $orcamentoAberto;
-  
+
   public function cadastrar($orcamentoId, $request) {
-    if (isset($request->post->cadastrar)) {
-      print_r($request->post);
-      $orcamentoModel = Container::getModel('PropostaOrcamento');
-    }
-    return;
+    $proposta = new PropostaOrcamento();
+    $proposta->setIdFornecedor(Session::get('usuario')->id);
+    $proposta->setIdOrcamento($orcamentoId);
+    $proposta->setAberto(0);
 
-    if (isset($request->post->nome)) {
-      $this->orcamento = new Orcamento();
-      $this->orcamento->setNome($request->post->nome);
-      $this->orcamento->setAberto(isset($request->post->aberto) ? 1 : 0);
-      $this->orcamento->setVigenciaInicio($request->post->vigencia_inicio);
-      $this->orcamento->setVigenciaFim($request->post->vigencia_fim);
-      $this->orcamento->setIdUsrCad(Session::get('usuario')->id);
-      
-      for ($i = 0; $i < count($request->post->selectProd); $i++) {
-        $produto = new Produto();
-        $produto->setId($request->post->selectProd[$i]);
-        $ordem = new Ordem($produto, $request->post->qtd_produto[$i]);
-        $this->orcamento->addOrdem($ordem);
-      }
-
-      $orcamentoModel = Container::getModel('Orcamento');
-      $result = $orcamentoModel->insert($this->orcamento);
-
-      if (is_numeric($result)) {        
-        Redirect::route('/orcamento');
-      } else {
-        echo $result;
-      }        
-    } else {
-      $produtoModel = Container::getModel('Produto');
-      $this->produtos = $produtoModel->getProducts();
-
-      $this->setPageTitle('Orçamento');
-      $this->renderView('orcamento/cadastrar', 'layout');
+    for ($i = 0; $i < count($request->post->valor); $i++) {
+      $ordem = new OrdemDeProposta();
+      $ordem->setIdOrdOrc($request->post->id_ord_orc[$i]);
+      $ordem->setValor($request->post->valor[$i]);
+      $proposta->addOrdem($ordem);
     }    
+
+    $propostaModel = Container::getModel('PropostaOrcamento');
+    $result = $propostaModel->insert($proposta);
+
+    if (is_numeric($result)) {        
+      Redirect::route('/orcamento/listar/'. $orcamentoId);
+    } else {
+      echo $result;
+    }  
+  }
+
+  public function atualizar($orcamentoId, $propostaId, $request) {
+    $proposta = new PropostaOrcamento;
+    
+    for ($i = 0; $i < count($request->post->valor); $i++) {
+      $valor = str_replace(',', '-', $request->post->valor[$i]);
+      $valor = str_replace('.', ',', $valor);
+      $valor = str_replace('-', '.', $valor);
+      
+      $ordem = new OrdemDeProposta();
+      $ordem->setId($request->post->id_ord_prop[$i]);
+      $ordem->setValor($valor);
+      $proposta->addOrdem($ordem);
+    } 
+    
+    $propostaModel = Container::getModel('PropostaOrcamento');
+    $result = $propostaModel->update($proposta);
+
+    if (is_numeric($result)) {        
+      Redirect::route('/orcamento/listar/'. $orcamentoId);
+    } else {
+      echo $result;
+    } 
   }
 }

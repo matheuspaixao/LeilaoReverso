@@ -36,6 +36,8 @@ class Orcamento extends BaseModel
                 FROM orcamento O
                 INNER JOIN ordensdeorcamento Ordem
                   ON O.id = Ordem.id_orcamento
+                INNER JOIN propostadeorcamento prop
+                  ON O.id = prop.id_orcamento
                 GROUP BY  O.id,
                           O.nome,
                           O.aberto,
@@ -47,6 +49,108 @@ class Orcamento extends BaseModel
                           O.ultima_alter";
 
       $sql = $this->pdo->prepare($query);
+      $sql->execute();
+
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function getOrcamentosByFornecedora($id) {
+    try {
+      $query = "SELECT O.id,
+                       CASE
+                         WHEN LENGTH(O.nome) > 20
+                         THEN CONCAT(LEFT(O.nome, 20), '...')
+                         ELSE O.nome
+                       END AS nome,
+                       O.aberto,
+                       DATE_FORMAT(O.vigencia_inicio, '%d/%m/%Y %H:%i') AS vigencia_inicio,
+                       DATE_FORMAT(O.vigencia_fim, '%d/%m/%Y %H:%i') AS vigencia_fim,
+                       O.id_usr_cad,
+                       O.id_usr_alter,
+                       O.criado_em,
+                       O.ultima_alter,
+                       COUNT(Ordem.id_produto) AS qtdProdutos,
+                       COUNT(DISTINCT prop.id) AS qtdPropostas,
+                       CASE
+                         WHEN O.vigencia_fim < CURRENT_TIMESTAMP()
+                         THEN 0
+                         ELSE 1
+                       END AS ativo
+                FROM orcamento O
+                INNER JOIN ordensdeorcamento Ordem
+                  ON O.id = Ordem.id_orcamento
+                INNER JOIN fornecedoresorcamento forn
+                  ON O.id = forn.id_orcamento
+                LEFT JOIN propostadeorcamento prop
+                  ON O.id = prop.id_orcamento
+                WHERE forn.id_fornecedor = :id_fornecedora
+                GROUP BY  O.id,
+                          O.nome,
+                          O.aberto,
+                          O.vigencia_inicio,
+                          O.vigencia_fim,
+                          O.id_usr_cad,
+                          O.id_usr_alter,
+                          O.criado_em,
+                          O.ultima_alter";
+
+      $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id_fornecedora', $id);
+      $sql->execute();
+
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function getOrcamentoByIdAndFornecedora($id_orcamento, $id_fornecedora) {
+    try {
+      $query = "SELECT 
+                  O.id AS idOrc,
+                  O.nome AS nomeOrc,
+                  O.aberto AS abertoOrc,
+                  Ordem.id AS idOrdemOrc,
+                  P.nome AS nomeProd,
+                  und.unidade AS undProd,
+                  Ordem.quantidade AS qtdProd,
+                  prop.id AS idPropOrc,
+                  ordProp.id AS idOrdProp,
+                  ordProp.valor AS valorProposto,
+                  COUNT(prop.id) AS houveProposta
+                FROM 
+                  orcamento O
+                INNER JOIN ordensdeorcamento Ordem
+                  ON O.id = Ordem.id_orcamento
+                INNER JOIN produto P
+                  ON Ordem.id_produto = P.id
+                INNER JOIN undmedida und
+                  ON P.id_und_medida = und.id
+                LEFT JOIN propostadeorcamento prop
+                  ON O.id = prop.id_orcamento
+                LEFT JOIN ordensdeproposta ordProp
+                  ON prop.id = ordProp.id_prop_orc
+                  AND Ordem.id = ordProp.id_ord_orc
+                WHERE 
+                  O.id = :id_orcamento
+                  AND (prop.id_fornecedor IS NULL OR prop.id_fornecedor = :id_fornecedora)
+                GROUP BY
+                  O.id,
+                  O.nome,
+                  O.aberto,
+                  Ordem.id,
+                  P.nome,
+                  und.unidade,
+                  Ordem.quantidade,
+                  prop.id,
+                  ordProp.id,
+                  ordProp.valor";
+      $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id_orcamento', $id_orcamento);
+      $sql->bindValue(':id_fornecedora', $id_fornecedora);
       $sql->execute();
 
       return $sql->fetchAll();

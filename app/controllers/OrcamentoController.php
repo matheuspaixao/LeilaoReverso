@@ -19,6 +19,7 @@ class OrcamentoController extends BaseController
   protected $listaOrcamentos;
   protected $title;
   protected $orcamentoAberto;
+  protected $urlForm;
   
   public function cadastrar($request) {
     if (isset($request->post->cadastrar)) { 
@@ -59,10 +60,18 @@ class OrcamentoController extends BaseController
   }
   
   public function listar() {
-    $orcamentoModel = Container::getModel('Orcamento');
-    $this->listaOrcamentos = $orcamentoModel->getOrcamentos($this->orcamento);
-    $this->setPageTitle('Orçamento');
-    $this->renderView('orcamento/listar', 'layout');
+    if (Session::get('usuario')->nivel_acesso > 3) {
+      $orcamentoModel = Container::getModel('Orcamento');
+      $this->listaOrcamentos = $orcamentoModel->getOrcamentos();
+      $this->setPageTitle('Orçamento');
+      $this->renderView('orcamento/listarAdm', 'layout');
+    }
+    else {
+      $orcamentoModel = Container::getModel('Orcamento');
+      $this->listaOrcamentos = $orcamentoModel->getOrcamentosByFornecedora(Session::get('usuario')->id);
+      $this->setPageTitle('Orçamento');
+      $this->renderView('orcamento/listarFornecedora', 'layout');
+    }
   }
 
   public function index() {
@@ -79,10 +88,18 @@ class OrcamentoController extends BaseController
       $this->orcamentoDetalhado = $orcamentoModel->getFullOrcamentoById($orcamentoId);
       $this->setPageTitle('Aprovar Orçamentos');
       $this->renderView('orcamento/detalharAdm', 'layout');
-    } else {
-      $this->orcamentoDetalhado = $orcamentoModel->getOrcamentoById($orcamentoId);
-
+    } 
+    else {
+      $this->orcamentoDetalhado = $orcamentoModel->getOrcamentoByIdAndFornecedora($orcamentoId, Session::get('usuario')->id);
+      
       if (count($this->orcamentoDetalhado) > 0) {  
+        $this->urlForm = "/proposta/$orcamentoId/";
+
+        if ($this->orcamentoDetalhado[0]->houveProposta == 0)
+          $this->urlForm .= "cadastrar";
+        else
+          $this->urlForm .= $this->orcamentoDetalhado[0]->idPropOrc . "/atualizar";
+
         $this->title = $this->orcamentoDetalhado[0]->nomeOrc;
         $this->orcamentoAberto = $this->orcamentoDetalhado[0]->abertoOrc;
         $this->setPageTitle($this->orcamentoDetalhado[0]->nomeOrc);

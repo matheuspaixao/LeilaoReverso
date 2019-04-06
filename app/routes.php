@@ -23,7 +23,8 @@ $route = [
   ['/orcamento/listar', 'OrcamentoController@listar', 3],
   ['/orcamento/listar/{orcamentoId}', 'OrcamentoController@detalhar', 3],
 
-  ['/orcamento/{orcamentoId}/cadastrarProposta', 'PropostaController@cadastrar', 3],
+  ['/proposta/{orcamentoId}/cadastrar', 'PropostaController@cadastrar', 3],
+  ['/proposta/{orcamentoId}/{propostaId}/atualizar', 'PropostaController@atualizar', 3],
 
   ['/meuperfil', 'UsuarioController@meuPerfil', 3],
   ['/meuperfil/atualizar', 'UsuarioController@atualizar', 3],

@@ -33,12 +33,12 @@
         <h5 class="mt-2 text-dark">Produtos</h5>
       </a>
     </div>
-    <div class="col-md-4 text-center" id="relatorios">
+    <!-- <div class="col-md-4 text-center" id="relatorios">
       <a href="">
         <img src="/assets/img/relatorio.png" height="80">
         <h5 class="mt-2 text-dark">Relatórios</h5>
       </a>
-    </div>    
+    </div>     -->
   </div>    
 </div>
 
@@ -52,7 +52,7 @@
     if (nivel_acesso < 5) {
       $("#fornecedoras").remove();
       $("#produtos").remove();
-      $("#relatorios").remove();
+      //$("#relatorios").remove();
       $("#usuarios").remove();
     }
     else if (nivel_acesso < 10) {      
