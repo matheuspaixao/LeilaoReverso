@@ -22,11 +22,10 @@
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Orçamento</th>
-        <th scope="col">Inicio</th>
-        <th scope="col">Termino</th>
+        <th scope="col">Vigência</th>
         <th scope="col">Qtd. Prod.</th>
         <th scope="col"></th>
-        <th scope="col"></th>
+        <!-- <th scope="col"></th> -->
       </tr>
     </thead>
     <tbody>
@@ -38,7 +37,7 @@
                               <span class='fa fa-external-link'></span>
                             </a>";
             $btnAlterar = "<a data-toggle='tooltip' title='Editar' class='btn btn-danger btn-block'
-                            href='' name='alterar' >
+                            href='/orcamento/$orcamento->id/atualizar' name='alterar' >
                             <span class='fa fa-pencil'></span>
                            </a>";   
 
@@ -46,11 +45,10 @@
             <tr>
               <th scope='row'>$orcamento->id</th>
               <td>$orcamento->nome</td>
-              <td>$orcamento->vigencia_inicio</td>
-              <td>$orcamento->vigencia_fim</td>
+              <td>$orcamento->vigencia_inicio à $orcamento->vigencia_fim</td>
               <td>$orcamento->qtdProdutos</td>
-              <td width='5%'>$btnDetalhar</td>
-              <td width='5%'>$btnAlterar</td>
+              <td width='5%'>$btnDetalhar</td> 
+              <!-- <td width='5%'>$btnAlterar</td> -->
             </tr>";
           }
         } 
@@ -67,8 +65,7 @@
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Orçamento</th>
-        <th scope="col">Inicio</th>
-        <th scope="col">Termino</th>
+        <th scope="col">Vigência</th>
         <th scope="col">Qtd. Prod.</th>
         <th scope="col"></th>
       </tr>
@@ -77,7 +74,7 @@
       <?php 
         foreach ($this->listaOrcamentos as $orcamento) {
           $btnDetalhar = "<a data-toggle='tooltip' title='Detalhar Oraçamento' class='btn btn-danger btn-block'
-                          href='/orcamento/listar/$orcamento->id' name='detalhar' >
+                          href='/orcamento/aprovado/$orcamento->id' name='detalhar' >
                           <span class='fa fa-external-link'></span>
                         </a>";
 
@@ -86,8 +83,7 @@
             <tr>
               <th scope='row'>$orcamento->id</th>
               <td>$orcamento->nome</td>
-              <td>$orcamento->vigencia_inicio</td>
-              <td>$orcamento->vigencia_fim</td>
+              <td>$orcamento->vigencia_inicio à $orcamento->vigencia_fim</td>
               <td>$orcamento->qtdProdutos</td>
               <td width='5%'>$btnDetalhar</td>
             </tr>";

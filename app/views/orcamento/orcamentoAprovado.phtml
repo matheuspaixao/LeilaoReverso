@@ -18,14 +18,20 @@
         <th>Qtd</th>";
       $i = 0;
       $total;
+      $propAceita;
+      $iterador = 0;
       foreach($this->orcamentoDetalhado as $orcamento) {
+        $iterador++;
+
         if (!isset($fornecedora[$orcamento->fornecedora])) {
           $fornecedora[$orcamento->fornecedora] = $i++;
           $total[$orcamento->fornecedora] = 0;
-          echo "<th>
-                  <input type='radio' name='idProposta' value='$orcamento->idProp' required> 
-                  $orcamento->fornecedora
-                </th>";
+          if ($orcamento->aceita == 1) {
+            echo "<th style='background-color: #58D68D;'>$orcamento->fornecedora</th>";
+            $propAceita = $iterador;
+          }
+          else 
+            echo "<th>$orcamento->fornecedora</th>";
         }        
       }
 
@@ -47,7 +53,8 @@
             if ($orcamento->idOrdOrc == $orcamento2->idOrdOrc && $i == $fornecedora[$orcamento2->fornecedora]) {
               $i++; 
               $total[$orcamento2->fornecedora] += $orcamento2->valor;
-              echo "<td>
+              $style = $orcamento2->aceita == 1 ? "style='background-color: #ABEBC6;'": ""; 
+              echo "<td $style>
                       <div class='form-check form-check-inline'>
                         <!-- <input class='form-check-input' type='radio' name='orc_$orcamento2->idOrdOrc' 
                         id='orc_$orcamento2->idOrdOrc'> -->
@@ -68,8 +75,13 @@
       <tfoot>
         <tr class = 'bg-danger'>
           <td colspan='3' align='center'><b>Total</b></td>";
+          $i = 0;
           foreach ($total as $t) {
-            echo "<td><b>R$ $t</b></td>";
+            $i++;
+            if ($i == $propAceita)
+              echo "<td style='background-color: #52BE80;'><b>R$ $t</b></td>";
+            else
+              echo "<td><b>R$ $t</b></td>";
           }
       echo "
         </tr>
@@ -80,12 +92,6 @@
   </div>  
 
   <div class="form-row mt-2">
-    <div class="col-md-1 mr-3">
-      <button data-toggle='tooltip' type="submit" title='voltar' class="btn btn-danger btn-center">
-        Aprovar
-        <span class="fa fa-check"></span>
-      </button>
-    </div>
     <div class="col-md-1">
       <a data-toggle='tooltip'title='voltar' class="btn btn-danger btn-center" href="/orcamento/listar">
         Voltar

@@ -27,7 +27,7 @@ class Orcamento extends BaseModel
                        O.id_usr_alter,
                        O.criado_em,
                        O.ultima_alter,
-                       COUNT(Ordem.id_produto) AS qtdProdutos,
+                       COUNT(DISTINCT Ordem.id_produto) AS qtdProdutos,
                        CASE
                          WHEN O.vigencia_fim < CURRENT_TIMESTAMP()
                          THEN 0
@@ -36,7 +36,7 @@ class Orcamento extends BaseModel
                 FROM orcamento O
                 INNER JOIN ordensdeorcamento Ordem
                   ON O.id = Ordem.id_orcamento
-                INNER JOIN propostadeorcamento prop
+                LEFT JOIN propostadeorcamento prop
                   ON O.id = prop.id_orcamento
                 GROUP BY  O.id,
                           O.nome,
@@ -72,7 +72,7 @@ class Orcamento extends BaseModel
                        O.id_usr_alter,
                        O.criado_em,
                        O.ultima_alter,
-                       COUNT(Ordem.id_produto) AS qtdProdutos,
+                       COUNT(DISTINCT Ordem.id_produto) AS qtdProdutos,
                        COUNT(DISTINCT prop.id) AS qtdPropostas,
                        CASE
                          WHEN O.vigencia_fim < CURRENT_TIMESTAMP()
@@ -109,45 +109,7 @@ class Orcamento extends BaseModel
 
   public function getOrcamentoByIdAndFornecedora($id_orcamento, $id_fornecedora) {
     try {
-      $query = "SELECT 
-                  O.id AS idOrc,
-                  O.nome AS nomeOrc,
-                  O.aberto AS abertoOrc,
-                  Ordem.id AS idOrdemOrc,
-                  P.nome AS nomeProd,
-                  und.unidade AS undProd,
-                  Ordem.quantidade AS qtdProd,
-                  prop.id AS idPropOrc,
-                  ordProp.id AS idOrdProp,
-                  ordProp.valor AS valorProposto,
-                  COUNT(prop.id) AS houveProposta
-                FROM 
-                  orcamento O
-                INNER JOIN ordensdeorcamento Ordem
-                  ON O.id = Ordem.id_orcamento
-                INNER JOIN produto P
-                  ON Ordem.id_produto = P.id
-                INNER JOIN undmedida und
-                  ON P.id_und_medida = und.id
-                LEFT JOIN propostadeorcamento prop
-                  ON O.id = prop.id_orcamento
-                LEFT JOIN ordensdeproposta ordProp
-                  ON prop.id = ordProp.id_prop_orc
-                  AND Ordem.id = ordProp.id_ord_orc
-                WHERE 
-                  O.id = :id_orcamento
-                  AND (prop.id_fornecedor IS NULL OR prop.id_fornecedor = :id_fornecedora)
-                GROUP BY
-                  O.id,
-                  O.nome,
-                  O.aberto,
-                  Ordem.id,
-                  P.nome,
-                  und.unidade,
-                  Ordem.quantidade,
-                  prop.id,
-                  ordProp.id,
-                  ordProp.valor";
+      $query = "CALL getOrcamentoByIdAndFornecedora(:id_orcamento, :id_fornecedora)";
       $sql = $this->pdo->prepare($query);
       $sql->bindValue(':id_orcamento', $id_orcamento);
       $sql->bindValue(':id_fornecedora', $id_fornecedora);
@@ -188,19 +150,23 @@ class Orcamento extends BaseModel
 
   public function getFullOrcamentoById($id) {
     try {
-      $query = "SELECT O.id AS idOrc,
-                       O.nome AS nomeOrc,
-                       O.aberto AS orcAberto,
-                       ordemO.id AS idOrdOrc,
-                       P.id AS idProd,
-                       P.nome AS nomeProd,
-                       und.unidade AS undProd,
-                       ordemO.quantidade AS qtdProd,
-                       u.nome AS fornecedora,
-                       ordemP.id AS idOrdProp,
-                       ordemP.valor,
-                       ordemP.aceita
-                FROM orcamento O
+      $query = "SELECT 
+                  O.id AS idOrc,
+                  O.nome AS nomeOrc,
+                  O.aberto AS orcAberto,
+                  ordemO.id AS idOrdOrc,
+                  P.id AS idProd,
+                  P.nome AS nomeProd,
+                  und.unidade AS undProd,
+                  ordemO.quantidade AS qtdProd,
+                  u.nome AS fornecedora,
+                  prop.id AS idProp,
+                  ordemP.id AS idOrdProp,
+                  ordemP.valor,
+                  (SELECT SUM(VALOR) FROM ordensdeproposta WHERE id_prop_orc = prop.id) AS total,
+                  prop.aceita
+                FROM 
+                  orcamento O
                 INNER JOIN ordensdeorcamento ordemO
                   ON O.id = ordemO.id_orcamento
                 INNER JOIN produto P
@@ -208,13 +174,15 @@ class Orcamento extends BaseModel
                 INNER JOIN undmedida und
                   ON P.id_und_medida = und.id
                 LEFT JOIN propostadeorcamento prop
-                  ON ordemO.id = prop.id_orcamento
+                  ON O.id = prop.id_orcamento
                 LEFT JOIN ordensdeproposta ordemP
                   ON prop.id = ordemP.id_prop_orc
                   AND ordemO.id = ordemP.id_ord_orc
                 LEFT JOIN usuario u
                   ON prop.id_fornecedor = u.id
-                WHERE O.id = ?";
+                WHERE 
+                  O.id = ?
+                ORDER BY total, u.nome, P.nome";
       $sql = $this->pdo->prepare($query);
       $sql->execute([ $id ]);
 
@@ -224,14 +192,99 @@ class Orcamento extends BaseModel
     }
   }
 
-  public function getFornecedoras() {
+  public function getOrcamentoByIdToUpdate($id) {
     try {
-      $query = "SELECT u.id, u.nome 
-                FROM usuario u
-                INNER JOIN tipousuario t
-                  ON u.id_tipo_usuario = t.id
-                WHERE t.nivel_acesso = 3";
+      $query = "SELECT 
+                  id,
+                  nome,
+                  aberto,
+                  vigencia_inicio,
+                  vigencia_fim, 
+                  vigencia_fim < CURRENT_TIMESTAMP() AS finalizado
+                FROM orcamento 
+                WHERE id = :id";
       $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id', $id);
+      $sql->execute();
+
+      return $sql->fetch();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function getFornecedorasByOrcamentoId($id) {
+    try {
+      $query = "SELECT 
+                  u.id AS idForn,
+                  u.nome
+                FROM fornecedoresorcamento forn
+                INNER JOIN usuario u
+                  ON forn.id_fornecedor = u.id
+                WHERE 
+                  forn.id_orcamento = :id";
+      $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id', $id);
+      $sql->execute();
+
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function getOrdensByOrcamentoId($id) {
+    try {
+      $query = "SELECT
+                  ord.id AS idOrd,
+                  p.id AS idProduto,
+                  p.nome AS produto,
+                  und.unidade,
+                  ord.quantidade
+                FROM 
+                  produto p
+                INNER JOIN undmedida und
+                  ON p.id_und_medida = und.id
+                LEFT JOIN ordensdeorcamento ord
+                  ON ord.id_produto = p.id
+                WHERE
+                  ord.id IS NULL 
+                  OR ord.id_orcamento = :id";                  
+      $sql = $this->pdo->prepare($query);
+      $sql->bindValue(':id', $id);
+      $sql->execute();
+
+      return $sql->fetchAll();
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
+
+  public function getFornecedoras($orcamentoId = null) {
+    try {
+      if ($orcamentoId == null) {
+        $query = "SELECT u.id, u.nome, null AS idFornOrc
+                  FROM usuario u
+                  INNER JOIN tipousuario t
+                    ON u.id_tipo_usuario = t.id
+                  WHERE 
+                    t.nivel_acesso = 3";
+      }
+      else {
+        $query = "SELECT u.id, u.nome, forn.id AS idFornOrc
+                  FROM usuario u
+                  INNER JOIN tipousuario t
+                    ON u.id_tipo_usuario = t.id
+                  LEFT JOIN fornecedoresorcamento forn
+                    ON u.id = forn.id_fornecedor
+                  WHERE 
+                    t.nivel_acesso = 3
+                    AND (forn.id is NULL OR forn.id_orcamento = :orcamentoId)";
+      }
+      
+      $sql = $this->pdo->prepare($query);
+      if ($orcamentoId != null)
+        $sql->bindValue(':orcamentoId', $orcamentoId);
       $sql->execute();
       
       return $sql->fetchAll();

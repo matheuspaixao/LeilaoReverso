@@ -66,4 +66,28 @@ class PropostaOrcamento extends BaseModel
       return $e->getMessage();
     }
   }
+
+  public function aprovar($orcamentoId, $propostaId) {
+    try {
+      $this->pdo->beginTransaction();
+
+      $query = "UPDATE orcamento
+                SET vigencia_fim = DATE_SUB(now(), INTERVAL 1 MINUTE)
+                WHERE id = ?";
+      $sql = $this->pdo->prepare($query);
+      $sql->execute([ $orcamentoId ]);
+
+      $query = "UPDATE propostadeorcamento
+                SET aceita = 1
+                WHERE id = ?";
+      $sql = $this->pdo->prepare($query);
+      $sql->execute([ $propostaId ]);
+
+      $this->pdo->commit();
+
+      return 1;
+    } catch (PDOException $e) {
+      return $e->getMessage();
+    }
+  }
 }

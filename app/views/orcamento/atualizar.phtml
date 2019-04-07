@@ -2,32 +2,29 @@
   <div class="form-border col-12 col-sm-12 border">
     <form action="" method="post" accept-charset="utf-8" class="form-content border">
 
-      <h2 class="text-left">Cadastrar Orçamento</h2>
+      <h2 class="text-left">Atulizar Orçamento</h2>
       <hr/>
       <div class="form-row">
         <div class="col-md-7">
           <label class="col-form-label">Nome do Orçamento</label>
-          <input type="text" name="nome" class="form-control input-lg" placeholder="Nome do Orçamento" autofocus required/>
+          <input type="text" name="nome" class="form-control input-lg" placeholder="Nome do Orçamento" autofocus required
+            value="<?php echo $this->orcamento->getNome() ?>" />
         </div>
         
         <div class="col-md-2">
           <label class="col-form-label">Orçamento aberto?</label>
-          <input type="checkbox" name="aberto" data-toggle="toggle" data-on="Sim" data-off="Não" data-onstyle="danger">
+          <input type="checkbox" name="aberto" data-toggle="toggle" data-on="Sim" data-off="Não" data-onstyle="danger"
+            <?php echo $this->orcamento->getAberto() == 1 ? "checked" : "" ?>>
         </div>
 
         <div class="col-md-4">
           <label class="col-form-label">Início</label>
           <?php 
-            if (!isset($this->orcamento->id)) {
-              date_default_timezone_set('America/Sao_Paulo');
-              $date = new DateTime();
-              $dataInput =  $date->format('Y-m-d\TH:i:s');
-            }
-            
+            $date = new DateTime($this->orcamento->getVigenciaInicio());
+            $inicio = $date->format('Y-m-d\TH:i:s');
             echo "<input type='datetime-local' 
-                    name='vigencia_inicio' 
-                    value='". $dataInput ."'
-                    min='". $dataInput ."' 
+                    name='vigencia_inicio'
+                    value='$inicio'
                     pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}'
                     class='form-control input-lg' autofocus required />"
           ?>          
@@ -36,16 +33,11 @@
         <div class="col-md-4">
           <label class="col-form-label">Fim</label>
           <?php 
-            if (!isset($this->orcamento->id)) {
-              date_default_timezone_set('America/Sao_Paulo');
-              $date = new DateTime();
-              $date->modify('+1 day');
-              $dataInput =  $date->format('Y-m-d\TH:i:s');
-            }
-            
+            $date = new DateTime($this->orcamento->getVigenciaFim());
+            $fim = $date->format('Y-m-d\TH:i:s');
             echo "<input type='datetime-local' 
                     name='vigencia_fim' 
-                    value='". $dataInput ."'
+                    value='$fim' 
                     pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}'
                     class='form-control input-lg' autofocus required/>"
           ?>
@@ -54,9 +46,12 @@
         <div class="col-md-7">
           <label class="col-form-label">Fornecedoras autorizadas</label>
           <select class="js-example-basic-multiple form-control" name="fornecedoras[]" multiple="multiple" required>
-            <?php
+            <?php 
               foreach($this->fornecedoras as $fornecedora)
-                echo "<option value='$fornecedora->id'>$fornecedora->nome</option>"
+                if ($fornecedora->idFornOrc == '')
+                  echo "<option value='$fornecedora->id'>$fornecedora->nome</option>";
+                else
+                  echo "<option selected value='$fornecedora->id'>$fornecedora->nome</option>";
             ?>
           </select>
         </div>
@@ -69,6 +64,9 @@
               <td width='10%'><label class="col-form-label">Quantidade</label></td>
               <td width='15%'><label class="col-form-label"></label></td>
             </tr>
+            <?php 
+              echo ""
+            ?>
             <tr id='row0'>
               <td>
                 <select name="selectProd[]" id="selectProd-0" class="form-control input-lg selectProd" autofocus required>                            
@@ -122,18 +120,20 @@
     var cmbBox;
     var inptQtd = '<input type="text" name="qtd_produto[]" placeholder="Qtd do produto" required class="form-control input-lg mt-1" >';
 
-    str = "<?php
-              foreach($this->produtos as $produto)
-                echo  $produto->id .' _ '. $produto->nome . ',';
-            ?>";
-    produtos = str.substring(0, str.length - 1).split(",");
-    
-    for (var i = 0; i < produtos.length; i++) 
-      prodDisp.push(true);
+    $(document).ready(function(){
+      str = "<?php
+                foreach($this->produtos as $produto)
+                  echo  $produto->id .' _ '. $produto->nome . ',';
+              ?>";
+      produtos = str.substring(0, str.length - 1).split(",");
+      
+      for (var i = 0; i < produtos.length; i++) 
+        prodDisp.push(true);
+    });
 
     function getOptions() {
       var i = 0;
-      var str = "";
+      var str = "";  
       produtos.forEach(function(value) {
         if (prodDisp[i])
           str +=  "<option value='" + value.split(' _ ')[0] + "'>" + value.split(' _ ')[1] + "</option>";
@@ -143,6 +143,7 @@
 
     function removeOption(idProd) {
       var index = produtos.findIndex(function(value) { return value.split(' _ ')[0] == idProd })
+      console.log(index);
       prodDisp[index] = false;
     }
       
@@ -165,7 +166,7 @@
       var idProd = $(this).val();
       var value = undProdutos.split(',').find(function(value) { return value.split('-')[0] == idProd; });
       $('#und-'+indx).val(value.split('-')[1]);
-      removeOption(idProd);
+      //removeOption(idProd);
     });
 
     $('.js-example-basic-multiple').select2();
