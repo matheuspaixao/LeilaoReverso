@@ -345,3 +345,94 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-04-07 19:05:54
+
+
+
+
+DROP PROCEDURE IF EXISTS `getOrcamentoByIdAndFornecedora`;
+
+delimiter //
+
+CREATE PROCEDURE `getOrcamentoByIdAndFornecedora`(orcamentoId INT, fornecedorId INT)
+BEGIN
+	
+    IF (SELECT COUNT(*) FROM propostadeorcamento WHERE id_orcamento = orcamentoId AND id_fornecedor = fornecedorId) > 0 THEN
+    
+		SELECT 
+		  O.id AS idOrc,
+		  O.nome AS nomeOrc,
+		  CASE WHEN O.vigencia_fim > NOW() THEN 1 ELSE 0 END AS abertoOrc,
+		  Ordem.id AS idOrdemOrc,
+		  P.nome AS nomeProd,
+		  und.unidade AS undProd,
+		  Ordem.quantidade AS qtdProd,
+		  prop.id AS idPropOrc,
+		  ordProp.id AS idOrdProp,
+		  ordProp.valor AS valorProposto,
+		  COUNT(prop.id) AS houveProposta
+		FROM 
+		  orcamento O
+		INNER JOIN ordensdeorcamento Ordem
+		  ON O.id = Ordem.id_orcamento
+		INNER JOIN produto P
+		  ON Ordem.id_produto = P.id
+		INNER JOIN undmedida und
+		  ON P.id_und_medida = und.id
+		LEFT JOIN propostadeorcamento prop
+		  ON O.id = prop.id_orcamento
+		LEFT JOIN ordensdeproposta ordProp
+		  ON prop.id = ordProp.id_prop_orc
+		  AND Ordem.id = ordProp.id_ord_orc
+		WHERE 
+		  O.id = orcamentoId
+		  AND (prop.id IS NULL OR prop.id_fornecedor = fornecedorId)
+		GROUP BY
+		  O.id,
+		  O.nome,
+		  O.vigencia_fim,
+		  Ordem.id,
+		  P.nome,
+		  und.unidade,
+		  Ordem.quantidade,
+		  prop.id,
+		  ordProp.id,
+		  ordProp.valor;
+	
+	ELSE 
+    
+		SELECT 
+		  O.id AS idOrc,
+		  O.nome AS nomeOrc,
+		  CASE WHEN O.vigencia_fim > NOW() THEN 1 ELSE 0 END AS abertoOrc,
+		  Ordem.id AS idOrdemOrc,
+		  P.nome AS nomeProd,
+		  und.unidade AS undProd,
+		  Ordem.quantidade AS qtdProd,
+		  null AS idPropOrc,
+		  null AS idOrdProp,
+		  null AS valorProposto,
+		  0 AS houveProposta
+		FROM 
+		  orcamento O
+		INNER JOIN ordensdeorcamento Ordem
+		  ON O.id = Ordem.id_orcamento
+		INNER JOIN produto P
+		  ON Ordem.id_produto = P.id
+		INNER JOIN undmedida und
+		  ON P.id_und_medida = und.id
+		WHERE 
+		  O.id = orcamentoId
+		GROUP BY
+		  O.id,
+		  O.nome,
+		  O.vigencia_fim,
+		  Ordem.id,
+		  P.nome,
+		  und.unidade,
+		  Ordem.quantidade;
+        
+	END IF;
+    
+END //
+
+delimiter ;
