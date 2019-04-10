@@ -1,0 +1,31 @@
+<?php
+  use Core\Session;
+
+  if (Session::get('alert')) {
+    $alertType = Session::get('alert')->type;
+    $alertTitle = Session::get('alert')->title;
+    $alertMsg = Session::get('alert')->msg;
+    Session::destroy('alert');
+
+    echo "
+    <div class='alert alert-$alertType alert-dismissible fade show' role='alert'>
+      <strong>$alertTitle</strong> $alertMsg
+      <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+        <span aria-hidden='true'>&times;</span>
+      </button>
+    </div>    
+    ";
+  }
+
+
+/*
+types of alerts:
+  primary   (blue)
+  secondary (light gray)
+  success   (green)
+  danger    (red)
+  warning   (yellow)
+  info      (light blue)
+  light     (white smoke)
+  dark      (gray)
+*/
