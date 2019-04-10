@@ -19,7 +19,7 @@
       $i = 0;
       $total;
       foreach($this->orcamentoDetalhado as $orcamento) {
-        if (!isset($fornecedora[$orcamento->fornecedora])) {
+        if ($orcamento->valor != "" && !isset($fornecedora[$orcamento->fornecedora])) {
           $fornecedora[$orcamento->fornecedora] = $i++;
           $total[$orcamento->fornecedora] = 0;
           echo "<th>
@@ -42,18 +42,20 @@
                   <td>$orcamento->undProd</td>
                   <td>$orcamento->qtdProd</td>";
 
-          $i = 0;
-          foreach ($this->orcamentoDetalhado as $orcamento2) {
-            if ($orcamento->idOrdOrc == $orcamento2->idOrdOrc && $i == $fornecedora[$orcamento2->fornecedora]) {
-              $i++; 
-              $total[$orcamento2->fornecedora] += $orcamento2->valor;
-              echo "<td>
-                      <div class='form-check form-check-inline'>
-                        <!-- <input class='form-check-input' type='radio' name='orc_$orcamento2->idOrdOrc' 
-                        id='orc_$orcamento2->idOrdOrc'> -->
-                        <label class='form-check-label' for='orc_$orcamento2->idOrdOrc'>$orcamento2->valor</label>
-                      </div>
-                    </td>";
+          if (isset($fornecedora[$orcamento->fornecedora])) {
+            $i = 0;
+            foreach ($this->orcamentoDetalhado as $orcamento2) {
+              if ($orcamento->idOrdOrc == $orcamento2->idOrdOrc && $i == $fornecedora[$orcamento2->fornecedora]) {
+                $i++; 
+                $total[$orcamento2->fornecedora] += $orcamento2->valor;
+                echo "<td>
+                        <div class='form-check form-check-inline'>
+                          <!-- <input class='form-check-input' type='radio' name='orc_$orcamento2->idOrdOrc' 
+                          id='orc_$orcamento2->idOrdOrc'> -->
+                          <label class='form-check-label' for='orc_$orcamento2->idOrdOrc'>$orcamento2->valor</label>
+                        </div>
+                      </td>";
+              }
             }
           }                
         }
@@ -68,9 +70,10 @@
       <tfoot>
         <tr class = 'bg-danger'>
           <td colspan='3' align='center'><b>Total</b></td>";
-          foreach ($total as $t) {
-            echo "<td><b>R$ $t</b></td>";
-          }
+          if (!empty($total))
+            foreach ($total as $t) {
+              echo "<td><b>R$ $t</b></td>";
+            }
       echo "
         </tr>
       </tfoot>";
@@ -81,7 +84,7 @@
 
   <div class="form-row mt-2">
     <div class="col-md-1 mr-3">
-      <button data-toggle='tooltip' type="submit" title='voltar' class="btn btn-danger btn-center">
+      <button data-toggle='tooltip' type="submit" title='Aprovar proposta selecionada' class="btn btn-danger btn-center">
         Aprovar
         <span class="fa fa-check"></span>
       </button>

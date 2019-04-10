@@ -28,6 +28,7 @@ class Orcamento extends BaseModel
                        O.criado_em,
                        O.ultima_alter,
                        COUNT(DISTINCT Ordem.id_produto) AS qtdProdutos,
+                       COUNT(DISTINCT prop.id) AS qtdPropostas,
                        CASE
                          WHEN O.vigencia_fim < CURRENT_TIMESTAMP()
                          THEN 0

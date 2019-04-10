@@ -61,10 +61,10 @@
       <tr>
         <th scope="col">Nº</th>
         <th scope="col">Nome Orçamento</th>
-        <th scope="col">Inicio</th>
-        <th scope="col">Termino</th>
-        <th scope="col">Qtd. Prod.</th>
-        <th scope="col"></th>
+        <th scope="col">Vigência</th>
+        <th scope="col" class='text-center'>Qtd. Prod.</th>
+        <th scope="col" class='text-center'>Qtd. Propostas</th>
+        <th scope="col" class='text-center'></th>
       </tr>
     </thead>
     <tbody>
@@ -80,9 +80,9 @@
             <tr>
               <th scope='row'>$orcamento->id</th>
               <td>$orcamento->nome</td>
-              <td>$orcamento->vigencia_inicio</td>
-              <td>$orcamento->vigencia_fim</td>
-              <td>$orcamento->qtdProdutos</td>
+              <td>$orcamento->vigencia_inicio à $orcamento->vigencia_fim</td>
+              <td class='text-center'>$orcamento->qtdProdutos</td>
+              <td class='text-center'>$orcamento->qtdPropostas</td>
               <td width='5%'>$btnDetalhar</td>
             </tr>";
           }

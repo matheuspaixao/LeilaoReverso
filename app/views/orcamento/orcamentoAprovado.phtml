@@ -21,9 +21,8 @@
       $propAceita;
       $iterador = 0;
       foreach($this->orcamentoDetalhado as $orcamento) {
-        $iterador++;
-
         if (!isset($fornecedora[$orcamento->fornecedora])) {
+          $iterador++;
           $fornecedora[$orcamento->fornecedora] = $i++;
           $total[$orcamento->fornecedora] = 0;
           if ($orcamento->aceita == 1) {
